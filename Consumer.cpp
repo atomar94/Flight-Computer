@@ -11,9 +11,17 @@ Consumer::Consumer()
     pthread_mutex_init(&datalock, NULL);
 }
 
+
+Consumer::~Consumer()
+{
+    delete shared_mem;
+}
+
+
 void Consumer::notify() {
     ready.post();
 }
+
 
 //Copies the data from newdata to the location of shared_mem.
 //returns true if it updated and false otherwise.
