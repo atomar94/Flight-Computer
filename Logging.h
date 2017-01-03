@@ -17,7 +17,6 @@ class Logging : public Consumer
 
     private:
         int fp;
-        pthread_mutex_t m;
 };
 
 #endif

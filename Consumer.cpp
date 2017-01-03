@@ -6,6 +6,8 @@
 Consumer::Consumer(struct datastruct * shared_mem_loc)
 {
     shared_mem = shared_mem_loc;
+    ready = Bisem();
+    pthread_mutex_init(&datalock, NULL);
 }
 
 

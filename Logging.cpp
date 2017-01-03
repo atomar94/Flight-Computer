@@ -20,9 +20,9 @@ void Logging::run()
         ready.get(); //get ready semaphore
 
         // getlock, copy shared, unlock
-        pthread_mutex_lock(&m); 
+        pthread_mutex_lock(&datalock); 
         memcpy(&data, shared_mem, sizeof(struct datastruct));
-        pthread_mutex_unlock(&m);
+        pthread_mutex_unlock(&datalock);
         write(fp, "hi", 2);
         break;
         //printf("%d, %d", data.data1, data.data2);

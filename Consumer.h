@@ -1,4 +1,5 @@
 //Consumer.h
+
 #include "Bisem.h"
 #include <pthread.h>
 #include "Globals.h"
@@ -9,15 +10,14 @@
 class Consumer
 {
     protected:
-        Bisem ready = Bisem();
-        //pthread_mutex_t datalock;
+        Bisem ready;
+        pthread_mutex_t datalock;
         bool runflag = true;
         struct datastruct data;
 
         struct datastruct * shared_mem;
 
     public:
-        pthread_mutex_t datalock;
         Consumer(struct datastruct * shared_mem_loc);
 
         virtual void run(); //run the consumer loop
