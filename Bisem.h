@@ -1,3 +1,5 @@
+//Bisem.h
+
 #include <semaphore.h>
 #include <atomic>
 #include <pthread.h>
@@ -12,8 +14,9 @@ class Bisem
         pthread_mutex_t lock;
 
     public:
-        bool post();
-        int get();
-        bool tryget();
         Bisem();
+
+        void post();
+        int get();
+
 };

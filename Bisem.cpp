@@ -1,4 +1,4 @@
-
+//Bisem.cpp
 
 #include "Bisem.h"
 #include <pthread.h>
@@ -10,7 +10,7 @@ Bisem::Bisem() {
 }
 
 //sets the value of the sem to 1
-bool Bisem::post()
+void Bisem::post()
 {
     int val;
     pthread_mutex_lock(&lock);
@@ -19,7 +19,6 @@ bool Bisem::post()
         sem_post(&counter);
     }
     pthread_mutex_unlock(&lock);
-    return true;
 }
 
 //blocking
@@ -28,11 +27,4 @@ int Bisem::get()
     return sem_wait(&counter);
 }
 
-bool Bisem::tryget()
-{
-    int val;
-   // pthread_mutex_lock(&lock);
-   // sem_getvalue(&counter, &lock);
-   // if( lock==
-   return true;
-}
+

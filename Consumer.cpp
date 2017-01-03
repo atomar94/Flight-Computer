@@ -26,4 +26,6 @@ void Consumer::lock() {
     pthread_mutex_lock(&datalock);
 }
 
-
+void Consumer::notify() {
+    ready.post();
+}

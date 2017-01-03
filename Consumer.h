@@ -26,6 +26,9 @@ class Consumer
         virtual bool trylock(); //returns true if lock acquired
         virtual void unlock();
         virtual void lock();
+
+        void notify(); //increments bisem
+
 };
 
 #endif
