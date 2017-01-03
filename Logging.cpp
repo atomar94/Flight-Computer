@@ -8,11 +8,12 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-Logging::Logging(struct datastruct * shared_mem_loc) : Consumer(shared_mem_loc)
+Logging::Logging() : Consumer()
 {
     fp = open("logfile.txt", O_WRONLY | O_CREAT);
 }
 
+//main loop for this consumer
 void Logging::run()
 {
     runflag = true;

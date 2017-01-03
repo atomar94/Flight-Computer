@@ -10,7 +10,7 @@
 class Logging : public Consumer
 {
     public:
-        Logging(struct datastruct * shared_mem_loc);
+        Logging();
 
         void run();
         void stop();

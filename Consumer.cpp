@@ -2,30 +2,31 @@
 
 #include "Consumer.h"
 #include "Globals.h"
+#include "string.h"
 
-Consumer::Consumer(struct datastruct * shared_mem_loc)
+Consumer::Consumer()
 {
-    shared_mem = shared_mem_loc;
+    shared_mem = new datastruct;
     ready = Bisem();
     pthread_mutex_init(&datalock, NULL);
-}
-
-
-//Returns true if the lock was acquired, else false
-bool Consumer::trylock() {
-    if(!pthread_mutex_trylock(&datalock))
-        return true;
-    return false;
-}
-
-void Consumer::unlock() {
-    pthread_mutex_unlock(&datalock);
-}
-
-void Consumer::lock() {
-    pthread_mutex_lock(&datalock);
 }
 
 void Consumer::notify() {
     ready.post();
 }
+
+//Copies the data from newdata to the location of shared_mem.
+//returns true if it updated and false otherwise.
+bool Consumer::update_shared_memory(struct datastruct * newdata)
+{
+    if( ! pthread_mutex_trylock(&datalock) ) {
+        memcpy(shared_mem, newdata, sizeof(struct datastruct));
+        pthread_mutex_unlock(&datalock);
+        return true;
+    }
+    return false;
+}
+
+
+
+

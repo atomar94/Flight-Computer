@@ -1,3 +1,5 @@
+//main.cpp
+
 #include "Logging.h"
 #include <pthread.h>
 #include "Globals.h"
@@ -8,11 +10,7 @@ int main() {
     d.data1 = 1;
     d.data2 = 2;
 
-
-
-    Logging log = Logging(&d);
-    log.run();
-    //Consumer * poly = &log;
-    //poly->run();
+    Logging log = Logging();
+    log.run();  
     
 }
