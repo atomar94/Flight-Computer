@@ -26,17 +26,4 @@ void Consumer::lock() {
     pthread_mutex_lock(&datalock);
 }
 
-//declared but unused because if it was pure virtual then our
-//member variables would not instantiate and datalock (forexample)
-//would block everytime.
-//
-//that was a gnarley bug to track down.
-void Consumer::run()
-{
 
-}
-
-void Consumer::stop()
-{
-
-}

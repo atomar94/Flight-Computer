@@ -20,8 +20,8 @@ class Consumer
     public:
         Consumer(struct datastruct * shared_mem_loc);
 
-        virtual void run(); //run the consumer loop
-        virtual void stop(); //stop the consumer loop
+        virtual void run() = 0; //run the consumer loop
+        virtual void stop() = 0; //stop the consumer loop
 
         virtual bool trylock(); //returns true if lock acquired
         virtual void unlock();
