@@ -1,10 +1,11 @@
-#include "Controls.h"
+#include "Controls.cpp"
 
 
 Controls::run()
 {
-    while(runflag){
-        
+    runflag = true;
+    while(runflag) {
+        ready.get();
 
 
     }
