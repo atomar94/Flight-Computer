@@ -4,6 +4,7 @@
 #include "FlightInstrumentation.h"
 #include "Globals.h"
 #include "Consumer.h"
+#include "MessageQueue.h"
 
 #include <pthread.h>
 #include <list>
@@ -11,9 +12,13 @@
 #include <thread>
 
 int main() {
-    struct datastruct d;
-    d.data1 = 1;
-    d.data2 = 2;
+
+    MessageQueue * m = new MessageQueue();
+    m->push("Hello");
+    m->push("World");
+    delete m;
+    return 0;
+
 
     //define all consumers
     Logging log = Logging();

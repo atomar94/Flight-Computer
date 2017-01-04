@@ -4,7 +4,7 @@ boost=-I /usr/local/boost_1_63_0
 
 
 all:
-	$(CC) $(flags) $(boost) main.cpp Bisem.cpp Consumer.cpp Logging.cpp Producer.cpp FlightInstrumentation.cpp -o fcmain
+	$(CC) $(flags) $(boost) main.cpp Bisem.cpp MessageQueue.cpp Consumer.cpp Logging.cpp Producer.cpp FlightInstrumentation.cpp -o fcmain
 
 debug:
-	$(CC) $(flags) $(boost) -g main.cpp Bisem.cpp Consumer.cpp Logging.cpp Producer.cpp FlightInstrumentation.cpp -o fc_debug
+	$(CC) $(flags) $(boost) -g main.cpp Bisem.cpp MessageQueue.cpp Consumer.cpp Logging.cpp Producer.cpp FlightInstrumentation.cpp -o fc_debug
