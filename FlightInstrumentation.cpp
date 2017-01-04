@@ -12,6 +12,8 @@
 FlightInstrumentation::FlightInstrumentation(std::list<Consumer*> &c) : Producer()
 {
     consumers = std::list<Consumer*>(c);
+    sensor_data.data1 = 0;
+    sensor_data.data2 = 0;
 }
 
 //dtor
@@ -42,7 +44,7 @@ void FlightInstrumentation::run()
 // sensor_data struct.
 void FlightInstrumentation::get_sensors()
 {
-    sensor_data.data1 = 4;
-    sensor_data.data2 = 5;
+    sensor_data.data1++;
+    sensor_data.data2++;
 }
 
