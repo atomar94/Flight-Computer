@@ -2,11 +2,12 @@
 
 #include <string>
 #include "MessageQueue.h"
+#include "QueuedConsumer.h"
 #include "Bisem.h"
 
 QueuedConsumer::QueuedConsumer()
 {
-    msg_queue = new MessageQueue();
+    msg_queue = new MessageQueue(ready);
 }
 
 QueuedConsumer::~QueuedConsumer()

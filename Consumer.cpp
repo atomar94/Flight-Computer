@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-Consumer::Consumer(MessageQueue * l=nullptr, MessageQueue * r=nullptr)
+Consumer::Consumer(MessageQueue * l, MessageQueue * r)
 {
     log_queue = l;
     radio_queue = r;
@@ -24,7 +24,7 @@ Consumer::~Consumer()
     delete ready;
 }
 
-
+//increment the semaphore so this consumer knows it has more data to read
 void Consumer::notify() {
     ready->post();
 }

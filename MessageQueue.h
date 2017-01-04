@@ -3,6 +3,9 @@
 #include "boost/lockfree/queue.hpp"
 #include <pthread.h>
 #include <string>
+#include <atomic>
+
+#include "Bisem.h"
 
 #ifndef MESSAGEQUEUE_H
 #define MESSAGEQUEUE_H
@@ -15,15 +18,18 @@
 class MessageQueue
 {
     public:
-        MessageQueue();
+        MessageQueue(Bisem * b);
         //TODO this needs a copy constructor, otherwise we need to dynamically allocate every instance.
         ~MessageQueue();
         bool push(std::string message);
         bool pop(std::string &message);
+        int size();
 
     private:
         pthread_mutex_t write_lock;
         boost::lockfree::queue<std::string*> msg_queue{32}; //start with 32 prealloc'ed nodes
+        std::atomic<int> qsize;
+        Bisem * b;
 
 
 };

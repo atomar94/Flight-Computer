@@ -21,7 +21,7 @@ class Consumer
         struct datastruct * shared_mem; //shared copy
 
     public:
-        Consumer();
+        Consumer(MessageQueue * l=nullptr, MessageQueue * r=nullptr);
         ~Consumer();
 
         virtual void run() = 0; //run the consumer loop

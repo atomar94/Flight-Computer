@@ -1,17 +1,19 @@
 //MessageQueue.cpp
 
 #include "MessageQueue.h"
+#include "Bisem.h"
 #include <string>
 #include <iostream>
 
-MessageQueue::MessageQueue()
+//takes a bisem so we can post to it when things get pushed into the queue
+MessageQueue::MessageQueue(Bisem * b) : b(b)
 {
     pthread_mutex_init(&write_lock, NULL);
+    qsize = 0;
 }
 
 MessageQueue::~MessageQueue()
 {
-
     std::cout << "In MessageQueue dtor" << std::endl;
     /*
     * We store dynamically allocated strings in this queue (see push() for details)
@@ -22,6 +24,7 @@ MessageQueue::~MessageQueue()
     {
         std::cout << "Deleting : " << *temp << std::endl;
         delete temp;
+        qsize--;
     }
 }
 
@@ -40,11 +43,16 @@ bool MessageQueue::push(std::string message)
     pthread_mutex_lock(&write_lock);
     bool retval = msg_queue.unsynchronized_push(temp);
     pthread_mutex_unlock(&write_lock);
-    
+
+    qsize++;
+
     if(!retval) //if it didnt go in then delete it here.
     {
+        qsize--;
         delete temp;
     }
+    else
+        b->post(); //if we succeeded then post to the bisem
     return retval;
 }
 
@@ -54,11 +62,18 @@ bool MessageQueue::pop(std::string &message)
 {
     std::string * temp;
     bool retval = msg_queue.pop(temp);
-    if( !retval )
+    qsize--;
+    if( !retval ) //if we failed
     {
+        qsize++;
         return retval;
     }
     message = std::string(*temp);
     delete temp;
     return retval;
+}
+
+int MessageQueue::size()
+{
+    return qsize.load();
 }

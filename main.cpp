@@ -13,10 +13,12 @@
 
 int main() {
 
-    MessageQueue * m = new MessageQueue();
+    Bisem * b = new Bisem();
+    MessageQueue * m = new MessageQueue(b);
     m->push("Hello");
     m->push("World");
     delete m;
+    delete b;
     return 0;
 
 

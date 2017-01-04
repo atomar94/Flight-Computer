@@ -2,9 +2,9 @@
 
 #include "Ignition.h"
 #include "Consumer.h"
-
+#include <cstring>
 //logging queue and radio queue
-Ignition::Ignition(MessagaeQueue * l, MessageQueue * r) : Consumer(l, r)
+Ignition::Ignition(MessageQueue * l, MessageQueue * r) : Consumer(l, r)
 {
 }
 
