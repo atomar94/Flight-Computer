@@ -6,12 +6,15 @@
 //FlightInstrumentation.cpp
 
 #include "FlightInstrumentation.h"
-
+#include <stdio.h>
 
 //ctor
 FlightInstrumentation::FlightInstrumentation(std::list<Consumer*> &c) : Producer()
 {
+    printf("inside flin ctor\n");
     consumers = new std::list<Consumer*>(c);
+    printf("Size of list is %d\n", consumers->size());
+
 }
 
 //dtor
@@ -24,9 +27,10 @@ FlightInstrumentation::~FlightInstrumentation()
 void FlightInstrumentation::run()
 {
     get_sensors();
-    
-    for( std::list<Consumer*>::iterator c = consumers->begin(); c != consumers->end(); c++)
+    printf("Size of list is %d\n", consumers->size());
+    for( std::list<Consumer*>::iterator c = consumers->begin(); c != consumers->end(); ++c)
     {
+        printf("Inside producer iteration loop\n");
         //if we are able to update shared mem...
         if( (*c)->update_shared_memory(&sensor_data) ) //c is a ptr to the list, and list has pointers, so double deref.
         {

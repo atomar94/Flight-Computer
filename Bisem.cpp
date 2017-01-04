@@ -6,7 +6,7 @@
 
 //init sem to 1
 Bisem::Bisem() {
-    sem_init(&counter, 0, 1);
+    sem_init(&counter, 0, 0); //init this to 0
 }
 
 //sets the value of the sem to 1

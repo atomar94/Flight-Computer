@@ -28,6 +28,7 @@ void Logging::run()
         char databuf[32];
         sprintf(databuf, "%d, %d", data.data1, data.data2);
         write(fp, databuf, strlen(databuf));
+	printf("%d, %d", data.data1, data.data2);
    }
 }
 
