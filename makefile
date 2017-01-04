@@ -8,3 +8,6 @@ all:
 
 debug:
 	$(CC) $(flags) $(boost) -g main.cpp Bisem.cpp MessageQueue.cpp Consumer.cpp Logging.cpp Producer.cpp FlightInstrumentation.cpp -o fc_debug
+
+clean:
+	rm fcmain fc_debug logfile.txt

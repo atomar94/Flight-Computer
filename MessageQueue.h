@@ -8,6 +8,10 @@
 #define MESSAGEQUEUE_H
 
 //threadsafe mutlireader multiwriter dynamically allocating queue.
+//Note this class has no copy constructor and some member variabled dont have copy constructors so
+//unless we define our own we can't use copy assignment.
+// AKA this must be assigned via dynamic instantiation
+// AKA MessageQueue * m = new MessageQueue();
 class MessageQueue
 {
     public:
