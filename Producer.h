@@ -22,7 +22,7 @@ class Producer
 
         //variables
         datastruct sensor_data; //all our sensors go in this struct. sloppy. fix later.
-        std::list<Consumer*> * consumers; //all the consumers from this producer.
+        std::list<Consumer*> consumers; //all the consumers from this producer.
         bool readyflag;
         
 

@@ -10,7 +10,7 @@
 class Consumer
 {
     protected:
-        Bisem ready;
+        Bisem * ready;
         pthread_mutex_t datalock;
         bool runflag = true;
 

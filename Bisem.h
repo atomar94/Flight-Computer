@@ -14,8 +14,8 @@
 class Bisem
 {
     private:
-        sem_t counter;
         pthread_mutex_t lock;
+        sem_t counter;
 
     public:
         Bisem();

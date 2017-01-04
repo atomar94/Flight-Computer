@@ -2,15 +2,17 @@
 #include "Logging.h"
 #include "Globals.h"
 #include <pthread.h>
+#include "Bisem.h"
 #include <cstring> //memcpy
 #include <stdio.h> //printf
-#include <iostream>
+#include <iostream> //cout
 #include <unistd.h>
 #include <fcntl.h>
 
 Logging::Logging() : Consumer()
 {
     fp = open("logfile.txt", O_WRONLY | O_CREAT);
+    std::cout << "Logging bisem@ " << ready << std::endl;
 }
 
 //main loop for this consumer
@@ -18,7 +20,8 @@ void Logging::run()
 {
     runflag = true;
     while(runflag) {
-        ready.get(); //get ready semaphore
+        std::cout << "waiting on bisem@ " << ready << std::endl;
+        ready->get(); //get ready semaphore
 
         // getlock, copy shared, unlock
         pthread_mutex_lock(&datalock); 
@@ -28,7 +31,7 @@ void Logging::run()
         char databuf[32];
         sprintf(databuf, "%d, %d", data.data1, data.data2);
         write(fp, databuf, strlen(databuf));
-	printf("%d, %d", data.data1, data.data2);
+	    printf("%d, %d", data.data1, data.data2);
    }
 }
 

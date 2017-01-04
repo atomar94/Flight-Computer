@@ -3,11 +3,14 @@
 #include "Consumer.h"
 #include "Globals.h"
 #include "string.h"
+#include "Bisem.h"
+
+#include <iostream>
 
 Consumer::Consumer()
 {
     shared_mem = new datastruct;
-    ready = Bisem();
+    ready = new Bisem(); //this must be dynamically allocated or else there is a semaphore mismatch when we spawn a new thread.
     pthread_mutex_init(&datalock, NULL);
 }
 
@@ -15,11 +18,12 @@ Consumer::Consumer()
 Consumer::~Consumer()
 {
     delete shared_mem;
+    delete ready;
 }
 
 
 void Consumer::notify() {
-    ready.post();
+    ready->post();
 }
 
 
