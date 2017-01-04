@@ -7,8 +7,11 @@
 
 #include <iostream>
 
-Consumer::Consumer()
+Consumer::Consumer(MessageQueue * l=nullptr, MessageQueue * r=nullptr)
 {
+    log_queue = l;
+    radio_queue = r;
+
     shared_mem = new datastruct;
     ready = new Bisem(); //this must be dynamically allocated or else there is a semaphore mismatch when we spawn a new thread.
     pthread_mutex_init(&datalock, NULL);
@@ -39,6 +42,22 @@ bool Consumer::update_shared_memory(struct datastruct * newdata)
     return false;
 }
 
+//if a valid radio_queue was supplied then push into it
+void Consumer::push_radio(std::string msg)
+{
+    if(radio_queue)
+    {
+        radio_queue->push(msg);
+    }
+}
 
+//if a valid log_queue was supplied then push into it
+void Consumer::push_log(std::string msg)
+{
+    if(log_queue)
+    {
+        log_queue->push(msg);
+    }
+}
 
 
