@@ -1,7 +1,7 @@
 //main.cpp
 
 #include "Logging.h"
-#include "FlightInstrumentation.h"
+#include "Instrumentation.h"
 #include "Globals.h"
 #include "Consumer.h"
 #include "MessageQueue.h"
@@ -36,7 +36,7 @@ void test_logging()
     c.push_back(&e);
 
     //define producers
-    FlightInstrumentation flin = FlightInstrumentation(c);
+    Instrumentation flin = Instrumentation(c);
 
 
     //start the consumers

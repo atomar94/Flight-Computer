@@ -1,4 +1,4 @@
-//FlightInstrumentation.cpp
+//Instrumentation.cpp
 
 #include <list>
 #include <iostream>
@@ -6,25 +6,25 @@
 
 #include "Globals.h"
 #include "Consumer.h"
-#include "FlightInstrumentation.h"
+#include "Instrumentation.h"
 
 //ctor
-FlightInstrumentation::FlightInstrumentation(std::list<Consumer*> &c) : Producer()
+Instrumentation::Instrumentation(std::list<Consumer*> &c) : Producer()
 {
-    std::cout << "FlightInstrumentation ctor" << std::endl;
+    std::cout << "Instrumentation ctor" << std::endl;
     consumers = std::list<Consumer*>(c);
     sensor_data.data1 = 0;
     sensor_data.data2 = 0;
 }
 
 //dtor
-FlightInstrumentation::~FlightInstrumentation()
+Instrumentation::~Instrumentation()
 {
- std::cout << "FlightInstrumentation dtor" << std::endl;
+ std::cout << "Instrumentation dtor" << std::endl;
 }
 
 // main producer loop
-void FlightInstrumentation::run()
+void Instrumentation::run()
 {
     readyflag = true;
     while(true)
@@ -44,7 +44,7 @@ void FlightInstrumentation::run()
 
 // Collects data from each of the sensors and loads it into the 
 // sensor_data struct.
-void FlightInstrumentation::get_sensors()
+void Instrumentation::get_sensors()
 {
     sensor_data.data1++;
     sensor_data.data2++;
