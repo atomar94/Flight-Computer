@@ -2,8 +2,10 @@
 #include "Logging.h"
 #include "QueuedConsumer.h"
 #include "Globals.h"
-#include <pthread.h>
 #include "Bisem.h"
+
+#include <pthread.h> //mutex
+#include <sys/stat.h> //check if file exists
 #include <cstring> //memcpy
 #include <iostream> //cout
 #include <fstream> //file stuff
@@ -11,20 +13,19 @@
 Logging::Logging() : QueuedConsumer()
 {
     std::cout << "Logging ctor" << std::endl;
+    fp = new std::ofstream();
+    open_file();
 }
 
 Logging::~Logging()
 {
     std::cout << "Logging dtor" << std::endl;
+    delete fp;
 }
 
 //main loop for this consumer
 void Logging::run()
 {
-    //this must be allocated here because if we allocate in a different thread we have
-    //very odd issues and segfaults.
-    fp = new std::ofstream();
-    fp->open("logfile.txt", std::ofstream::out);
     std::string message;
 
     runflag = true;
@@ -63,4 +64,23 @@ void Logging::run()
 void Logging::stop()
 {
     runflag = false;
+}
+
+//finds a filename thatis not taken and opens it.
+//returns true on success else false
+bool Logging::open_file()
+{
+    char * filename_formatter = "log%d.txt";
+    char filename[16];
+    int i = 0;
+
+    struct stat buf;
+    do
+    {
+        sprintf(filename, filename_formatter, i);
+        i++;
+    }
+    while(stat(filename, &buf) != -1); //while this filename already exists...
+
+    fp->open(filename, std::ofstream::out);
 }

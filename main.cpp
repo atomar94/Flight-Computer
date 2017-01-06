@@ -26,20 +26,18 @@ void test_logging()
 {
 
     //define all consumers
-    //Logging * log = new Logging();
+    Logging log = Logging();
     Echo e = Echo();
 
 
     //put consumers in a list
     std::list<Consumer*> c;
-    //c.push_back( (Consumer*) log);
+    c.push_back(&log);
     c.push_back(&e);
 
     //define producers
     FlightInstrumentation flin = FlightInstrumentation(c);
 
-    e.help();
-    flin.help();
 
     //start the consumers
     // NOTE: THese threads must take a reference to the object.
@@ -48,16 +46,15 @@ void test_logging()
     // will not be the same memory location and they wont work.
 
     std::cout << "spawning consumer thread" << std::endl;
-    //std::thread logthread(&Consumer::run, *log);
+    std::thread logthread(&Consumer::run, &log);
     std::thread echothread(&Consumer::run, &e);
 
     //start the producers
     std::cout << "spawning producer thread" << std::endl;
     std::thread flinthread(&Producer::run, &flin);
 
-    //logthread.join();
     echothread.join();
-    std::cout << "logthread join()ed" << std::endl;
+    logthread.join();
     flinthread.join();
 
 }

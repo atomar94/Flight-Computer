@@ -14,6 +14,9 @@ class Logging : public QueuedConsumer
     public:
         Logging();
         ~Logging();
+
+        bool open_file();
+
         void run();
         void stop();
 
