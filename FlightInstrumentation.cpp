@@ -11,6 +11,7 @@
 //ctor
 FlightInstrumentation::FlightInstrumentation(std::list<Consumer*> &c) : Producer()
 {
+    std::cout << "FlightInstrumentation ctor" << std::endl;
     consumers = std::list<Consumer*>(c);
     sensor_data.data1 = 0;
     sensor_data.data2 = 0;
@@ -19,23 +20,24 @@ FlightInstrumentation::FlightInstrumentation(std::list<Consumer*> &c) : Producer
 //dtor
 FlightInstrumentation::~FlightInstrumentation()
 {
+ std::cout << "FlightInstrumentation dtor" << std::endl;
 }
 
 // main producer loop
 void FlightInstrumentation::run()
 {
     readyflag = true;
-    int i = 0;
-    while(i < 4) {
+    while(true)
+    {
         get_sensors();
         for( std::list<Consumer*>::iterator c = consumers.begin(); c != consumers.end(); ++c)
         {
             //if we are able to update shared mem...
             if( (*c)->update_shared_memory(&sensor_data) ) //c is a ptr to the list, and list has pointers, so double deref.
-            {
-                (*c)->notify(); //let the consumer know!
+	        {
+                    (*c)->notify(); //let the consumer know!
             }
-        }
+	    }
     }
 }
 

@@ -17,9 +17,34 @@ Consumer::Consumer(MessageQueue * l, MessageQueue * r)
     pthread_mutex_init(&datalock, NULL);
 }
 
+//copy ctor
+Consumer::Consumer(const Consumer &other)
+{
+    std::cout << "Consumer copy ctor" << std::endl;
+    shared_mem = new datastruct;
+    *shared_mem = *other.shared_mem;
+
+    ready = new Bisem();
+
+    pthread_mutex_init(&datalock, NULL);
+
+}
+
+Consumer & Consumer::operator= (const Consumer &other)
+{
+    std::cout << "Consumer Assignment operator" << std::endl;
+
+    if(this == &other)
+        return *this;
+
+    *shared_mem = *other.shared_mem;
+
+    return *this;
+}
 
 Consumer::~Consumer()
 {
+    std::cout << "Consumer dtor" << std::endl;
     delete shared_mem;
     delete ready;
 }
@@ -60,4 +85,7 @@ void Consumer::push_log(std::string msg)
     }
 }
 
-
+void Consumer::help()
+{
+    std::cout << "Bisem Loc: " << ready << std::endl;
+}

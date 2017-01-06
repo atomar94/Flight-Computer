@@ -15,6 +15,7 @@ class Producer
         Producer();
         virtual void run() = 0;
         virtual void stop();
+        void help();
 
     protected:
         //functions

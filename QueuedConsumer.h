@@ -10,6 +10,8 @@ class QueuedConsumer : public Consumer
 {
     public:
         QueuedConsumer();
+        QueuedConsumer(const QueuedConsumer &other);
+        QueuedConsumer & operator= (const QueuedConsumer &other);
         ~QueuedConsumer();
         MessageQueue * get_queue();
     

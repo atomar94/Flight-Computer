@@ -22,12 +22,17 @@ class Consumer
 
     public:
         Consumer(MessageQueue * l=nullptr, MessageQueue * r=nullptr);
+        Consumer(const Consumer &other);
+        Consumer & operator= (const Consumer &other);
+
         ~Consumer();
 
         virtual void run() = 0; //run the consumer loop
         virtual void stop() = 0; //stop the consumer loop
 
         void notify(); //increments bisem
+
+        void help();
 
         //copies data from newdata to shared_mem.
         //returns true on update, else false.

@@ -12,6 +12,23 @@ MessageQueue::MessageQueue(Bisem * b) : b(b)
     qsize = 0;
 }
 
+MessageQueue::MessageQueue(const MessageQueue &other)
+{
+    std::cout << "MsgQueue copy ctor" << std::endl;
+    pthread_mutex_init(&write_lock, NULL);
+    b = other.b;
+    qsize = 0;
+}
+
+MessageQueue & MessageQueue::operator= (const MessageQueue &other)
+{
+    b = other.b;
+    pthread_mutex_init(&write_lock, NULL);
+    qsize = 0;
+    return *this;
+}
+
+
 MessageQueue::~MessageQueue()
 {
     std::cout << "In MessageQueue dtor" << std::endl;
@@ -26,6 +43,7 @@ MessageQueue::~MessageQueue()
         delete temp;
         qsize--;
     }
+    std::cout << "done with MessageQueue dtor" << std::endl;
 }
 
 //blocking

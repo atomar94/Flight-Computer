@@ -19,6 +19,8 @@ class Bisem
 
     public:
         Bisem();
+        Bisem(const Bisem &other);
+        Bisem & operator= (const Bisem &other);
 
         void post();
         int get();

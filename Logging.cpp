@@ -5,28 +5,37 @@
 #include <pthread.h>
 #include "Bisem.h"
 #include <cstring> //memcpy
-#include <stdio.h> //printf
 #include <iostream> //cout
-#include <unistd.h>
-#include <fcntl.h>
+#include <fstream> //file stuff
 
 Logging::Logging() : QueuedConsumer()
 {
-    fp = open("logfile.txt", O_WRONLY | O_CREAT);
+    std::cout << "Logging ctor" << std::endl;
+}
+
+Logging::~Logging()
+{
+    std::cout << "Logging dtor" << std::endl;
 }
 
 //main loop for this consumer
 void Logging::run()
 {
+    //this must be allocated here because if we allocate in a different thread we have
+    //very odd issues and segfaults.
+    fp = new std::ofstream();
+    fp->open("logfile.txt", std::ofstream::out);
     std::string message;
+
     runflag = true;
-    while(runflag) {
+    while(runflag)
+    {
         ready->get(); //get ready semaphore
 
         if(msg_queue->pop(message))
         {
-            write(fp, message, message.length());
-        }
+            (*fp) << message << std::endl;
+        } 
         else
         {
             // getlock, copy shared, unlock
@@ -34,15 +43,20 @@ void Logging::run()
             memcpy(&data, shared_mem, sizeof(struct datastruct));
             pthread_mutex_unlock(&datalock);
 
-            char databuf[32];
-            sprintf(databuf, "%d, %d", data.data1, data.data2);
-            write(fp, databuf, strlen(databuf));
+            int a = 1;
+            if( fp->good())
+                a = 2;
+            if( fp->fail())
+                a = 3;
+            (*fp) << data.data1 << ", " << data.data2 << std::endl;
         }
         if(msg_queue->size() > 0) //if there are more things in the queue
         {
-            notify();
+           notify();
         }
-   }
+    }
+    fp->close();
+    delete fp;
 }
 
 //set runflag false so the run loop stops()

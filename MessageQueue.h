@@ -19,8 +19,10 @@ class MessageQueue
 {
     public:
         MessageQueue(Bisem * b);
-        //TODO this needs a copy constructor, otherwise we need to dynamically allocate every instance.
+        MessageQueue(const MessageQueue &other);
+        MessageQueue & operator= (const MessageQueue &other);
         ~MessageQueue();
+
         bool push(std::string message);
         bool pop(std::string &message);
         int size();

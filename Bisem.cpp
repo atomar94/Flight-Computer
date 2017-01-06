@@ -1,13 +1,25 @@
 //Bisem.cpp
 
 #include "Bisem.h"
-#include <iostream>
 #include <pthread.h>
 #include <semaphore.h>
 
 //init sem to 1
 Bisem::Bisem() {
     sem_init(&counter, 0, 1); //init this to 1
+}
+
+//semaphores not copied
+Bisem::Bisem(const Bisem &other)
+{
+    sem_init(&counter, 0, 1);
+}
+
+//semaphores are not copied
+Bisem & Bisem::operator= (const Bisem &other)
+{
+   sem_init(&counter, 0, 1);
+   return *this;
 }
 
 //sets the value of the sem to 1

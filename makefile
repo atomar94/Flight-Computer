@@ -1,7 +1,7 @@
 CC=g++
 flags=-std=c++0x -pthread
 boost=-I /usr/local/boost_1_63_0
-consumers=Consumer.cpp QueuedConsumer.cpp Logging.cpp Ignition.cpp
+consumers=Consumer.cpp QueuedConsumer.cpp Logging.cpp Ignition.cpp Echo.cpp
 producers=Producer.cpp FlightInstrumentation.cpp
 helpers=Bisem.cpp MessageQueue.cpp
 
