@@ -10,13 +10,13 @@ class MS5607_Driver
     void poll_data(); //grabs data & applies calibrations
 
     //mbar
-    int pressure();
+    float pressure();
 
     //Celsius
-    int temperature();
+    float temperature();
 
     //feet
-    int altitude();
+    float altitude();
 
   private:
     int m_pressure;
