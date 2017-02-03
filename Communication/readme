@@ -1,0 +1,9 @@
+brain dump of how this is going to work
+
+
+Comms.cpp should encapsulate the communication medium. Classes write to the
+Comms class message queue and the Comms class decides how to transmit the data
+(does it go over radio or the network?)
+
+probably get some private constructor idioms going in here to make sure we bootstrap
+everything correctly.
