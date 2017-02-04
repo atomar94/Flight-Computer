@@ -56,7 +56,12 @@ bool MessageQueue::push(Queued_Msg message)
     * pointers do! so we dynamically allocate, copy, and push.
     * on dequeue we pop, copy, and deallocate.
     */
-    std::string * temp = new std::string(message);
+    //std::string * temp = new std::string(message);
+
+    Queued_Msg * temp = new Queued_Msg;
+    temp->to = new string(message.to);
+    temp->dest = new string(message.dest);
+    temp->payload = new string(payload);
     
     pthread_mutex_lock(&write_lock);
     bool retval = msg_queue.unsynchronized_push(temp);
@@ -67,6 +72,9 @@ bool MessageQueue::push(Queued_Msg message)
     if(!retval) //if it didnt go in then delete it here.
     {
         qsize--;
+        delete temp->to;
+        delete temp->dest;
+        delete temp->payload;
         delete temp;
     }
     else
@@ -77,9 +85,10 @@ bool MessageQueue::push(Queued_Msg message)
 
 //returns true on success.
 //loads the message into $message
-bool MessageQueue::pop(std::string &message)
+bool MessageQueue::pop(Queued_Msg &message)
 {
-    std::string * temp;
+    //std::string * temp;
+    Queued_Message * temp;
     bool retval = msg_queue.pop(temp);
     qsize--;
     if( !retval ) //if we failed
@@ -87,7 +96,15 @@ bool MessageQueue::pop(std::string &message)
         qsize++;
         return retval;
     }
-    message = std::string(*temp);
+    //message = std::string(*temp);
+
+    message.to = string(temp->to);
+    message.dest = string(temp->dest);
+    message.payload = string(temp->payload);
+
+    delete temp->to;
+    delete temp->dest;
+    delete temp->payload;
     delete temp;
     return retval;
 }

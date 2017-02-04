@@ -16,9 +16,9 @@ using namespace std;
 
 struct Queued_Msg
 {
-    string to; //what object
-    string dest; //where its going (eventually)
-    string payload; //information we want to send
+    string * to; //what object
+    string * dest; //where its going (eventually)
+    string * payload; //information we want to send
 
 };
 
