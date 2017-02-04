@@ -10,6 +10,9 @@
 
 using namespace std;
 
+
+//loop through the valves we have and if the name
+//matches then actuate that one
 bool Valve_Control::actuate(string valve_name)
 {
     for(list<Valve>::iterator it = valve_list.begin(); 
