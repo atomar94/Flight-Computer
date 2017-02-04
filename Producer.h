@@ -7,6 +7,7 @@
 #include "MessageQueue.h"
 #include <map>
 
+
 #ifndef PRODUCER_H
 #define PRODUCER_H
 
@@ -25,6 +26,7 @@ class Producer
     protected:
         //functions
         virtual void get_sensors() = 0;
+        void add_msg_queue_pair(string name, MessageQueue* mq);
 
         //variables
         datastruct sensor_data; //all our sensors go in this struct.
