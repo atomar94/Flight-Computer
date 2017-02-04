@@ -10,41 +10,48 @@
 #include "../Logging.h"
 #include "../Globals.h"
 #include "../Producer.h"
+#include "../Consumer.h"
+
 
 using namespace std;
 
 
 //ctor
-Testing_Producer::Testing_Producer() : Producer()
+Testing_Producer::Testing_Producer(list<Consumer*> &c) : Producer()
 {
-    //create all objects for this simulation
-    valves = new Valve_Interface();
-    logger = new Logging();
-
-    consumers = std::list<Consumer*>();
-    consumers.push_back(valves);
-    consumers.push_back(logger);
-
-    string fueling = "fueling";
-    add_msg_queue_pair(fueling, valves->get_queue());
-    add_msg_queue_pair("logging", logger->get_queue());
+    consumers = std::list<Consumer*>(c);
 }
 
 Testing_Producer::~Testing_Producer()
 {
-    delete valves;
-    delete logger;
 }
 
-
+void Testing_Producer::add_msg_queue(string name, MessageQueue* mq)
+{
+    add_msg_queue_pair(name, mq);
+}
 void Testing_Producer::run()
 {
     string input;
-    while(true)
+    readyflag = true;
+    while(readyflag)
     {
-        cin >> input;
+        cout << endl << ">";
+        getline(cin, input);
+        if(debug)
+            cout << "got input: " << input << endl;
         list<string> tok = split(input, ' ');
-        
+        if(debug)
+        {
+            cout << "Parsed args: " << endl;
+            for(list<string>::iterator it = tok.begin();
+                    it != tok.end();
+                    it++)
+            {
+                cout << "\t" << *it << endl;
+            }
+
+        } 
         string root_cmd = tok.front();
         
         if(root_cmd == "help")
@@ -60,6 +67,12 @@ void Testing_Producer::run()
     }
 }
 
+
+void Testing_Producer::get_sensors()
+{
+    return;
+}
+
 //cmd line args below
 
 //help
@@ -70,8 +83,13 @@ void Testing_Producer::help()
     cout << "Commands" << endl;
 
     //help
-    cout << "help\t\t\tprint help information" << endl;
+    cout << "help" << endl;
+    cout << "\t\t print help information" << endl;
     cout << endl;
+
+    //stop
+    cout << "stop" << endl;
+    cout << "\t\t stop the producer loop." << endl;
 
     //set-data
     cout << "set-data <data-field> <value>" << endl;
@@ -90,6 +108,11 @@ void Testing_Producer::help()
     cout << "\t\t message should be surrounded in quotes" << endl;
     cout << "\t\t example: send-message fueling \"my message\"" << endl;
     cout << " *** *** ***" << endl;
+}
+
+void Testing_Producer::stop()
+{
+    readyflag = false;
 }
 
 //set-data <data-field> <value>
@@ -158,10 +181,25 @@ void Testing_Producer::set_data(list<string> cmd)
 //send-message <to> <message> <metadata>*
 void Testing_Producer::send_message(list<string> cmd)
 {
-    string message = "";
-    bool message_flag = false;
-    string dest = "";
+    if(debug)
+    {
+        cout << "send-message called with args" << endl;
+        for(list<string>::iterator it = cmd.begin();
+                it != cmd.end();
+                it++)
+        {
+            cout << "\t" << *it << endl;
+        }
 
+    }
+    string first = cmd.front();
+    cmd.pop_front();
+    if(debug)
+        cout << "cmd parsed: " << first << endl;
+    string dest = cmd.front();
+    cmd.pop_front();
+    if(debug)
+        cout << "dest parsed: " << dest << endl;
 
     //find matching message queue for this destination.
     map<string, MessageQueue*>::iterator mq;
@@ -171,19 +209,16 @@ void Testing_Producer::send_message(list<string> cmd)
         cout << "Could not find dest: " << dest << endl;
         return;
     }
+    else if(debug)
+        cout << "Found dest" << endl;
 
-
-
+    string message = "";
+    bool message_flag = false;
     int i = 0;
     for(list<string>::iterator it = cmd.begin();
             it != cmd.end();
             it++, i++)
     {
-        if(it == cmd.begin() && (*it) != "send-message")
-            return;
-    
-        if(i == 1)
-            dest = *it;
 
         if( (*it).front() == '"')
         {
@@ -207,6 +242,9 @@ void Testing_Producer::send_message(list<string> cmd)
             message.append( *it );
         }
     }//end for token in cmd_string
+    
+    if(debug)
+        cout << "Sending " << message << " to " << dest << endl;
 
     ((*mq).second)->push(message); 
 
