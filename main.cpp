@@ -9,7 +9,7 @@
 #include "MessageQueue.h"
 #include "Echo.h"
 #include "Fueling/Valve_Interface.h"
-#include "Testing/Testing_Producer.h"
+#include "Simulator/Testing_Producer.h"
 
 #include <pthread.h>
 #include <list>

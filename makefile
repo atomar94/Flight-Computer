@@ -5,7 +5,7 @@ consumers=Consumer.cpp QueuedConsumer.cpp Logging.cpp Ignition/Ignition.cpp Echo
 producers=Producer.cpp
 helpers=Bisem.cpp MessageQueue.cpp
 fueling=Fueling/Valve.cpp Fueling/Valve_Control.cpp Fueling/Valve_Interface.cpp
-simulator=Testing/Testing_Producer.cpp
+simulator=Simulator/Testing_Producer.cpp
 drivers=Drivers/MS5607_Driver.cpp Drivers/Instrumentation.cpp
 
 #this target is for when we are on a vm that doesn't have the bcm libraries
