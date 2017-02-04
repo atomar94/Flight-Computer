@@ -1,6 +1,13 @@
 //MS5607_Driver.h
 //driver for altimeter and thermometer
 
+
+/*
+ * Driver for the altimeter.
+ * Usage:   poll_data() gets all the data
+ *          pressure(), temperature(), altitude()
+ *          are getters for the class
+ */
 class MS5607_Driver
 {
   public:
