@@ -6,12 +6,13 @@ producers=Producer.cpp Instrumentation.cpp
 helpers=Bisem.cpp MessageQueue.cpp
 fueling=Fueling/Valve.cpp Fueling/Valve_Control.cpp Fueling/Valve_Interface.cpp
 simulator=Testing/Testing_Producer.cpp
+drivers=./Drivers/MS5607_Driver.cpp
 
 all:
-	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) -o fcmain
+	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) $(drivers)-o fcmain
 
 debug:
-	$(CC) $(flags) $(boost) -g main.cpp $(consumers) $(producers) $(helpers) $(fueling) -o fc_debug
+	$(CC) $(flags) $(boost) -g main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) -o fc_debug
 
 clean:
 	rm fcmain fc_debug logfile.txt

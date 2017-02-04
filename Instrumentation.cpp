@@ -15,6 +15,9 @@ Instrumentation::Instrumentation(std::list<Consumer*> &c) : Producer()
     consumers = std::list<Consumer*>(c);
     sensor_data.data1 = 0;
     sensor_data.data2 = 0;
+
+    //initialize all hardware instances
+    MS5607_Driver altimeter();
 }
 
 //dtor
@@ -46,7 +49,13 @@ void Instrumentation::run()
 // sensor_data struct.
 void Instrumentation::get_sensors()
 {
+    //keep now for testing
     sensor_data.data1++;
     sensor_data.data2++;
+
+
+    sensor_data.pressure =    altimeter.pressure();
+    sensor_data.temperature = altimeter.temperature();
+    sensor_data.altitude =    altimeter.altitude();
 }
 

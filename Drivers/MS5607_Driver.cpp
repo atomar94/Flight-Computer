@@ -104,21 +104,21 @@ void MS5607_Driver::init_sensor()
 
 //getter
 //mbar
-int MS5607_Driver::pressure()
+float MS5607_Driver::pressure()
 {
   return m_pressure;
 }
 
 //getter
 //Celsius
-int MS5607_Driver::temperature()
+float MS5607_Driver::temperature()
 {
   return m_temperature;
 }
 
 //not implemented yet
 //feet
-int MS5607_Driver::altitude()
+float MS5607_Driver::altitude()
 {
   return -1;
 }

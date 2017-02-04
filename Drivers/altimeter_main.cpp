@@ -41,16 +41,12 @@ int pow(int a, int b)
 void csb_low()
 {
   bcm2835_gpio_write(CHIP_SEL, LOW);
-  //bcm2835_gpio_clr(CHIP_SEL);
-  //bcm2835_gpio_clr(CSB);
 }
 
 //raise csb 0
 void csb_high()
 {
   bcm2835_gpio_write(CHIP_SEL, HIGH);
-  //bcm2835_gpio_set(CHIP_SEL);
-  //bcm2835_gpio_set( CSB );
 }
 
 //get the coefficient values
