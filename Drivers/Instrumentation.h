@@ -1,7 +1,17 @@
 //Instrumentation.h
 
-#include "Producer.h"
-#include "Drivers/MS5607_Driver.h"
+
+/*
+ *  Main Data acquisition loop for the flight computer
+ *
+ *  this is going to loop through all the instruments and
+ *  collect the data
+ *
+ *
+ */
+
+#include "../Producer.h"
+#include "MS5607_Driver.h"
 
 #ifndef INSTRUMENTATION_H
 #define INSTRUMENTATION_H

@@ -2,17 +2,24 @@ CC=g++
 flags=-std=c++0x -pthread
 boost=-I /usr/local/boost_1_63_0
 consumers=Consumer.cpp QueuedConsumer.cpp Logging.cpp Ignition/Ignition.cpp Echo.cpp
-producers=Producer.cpp Instrumentation.cpp
+producers=Producer.cpp
 helpers=Bisem.cpp MessageQueue.cpp
 fueling=Fueling/Valve.cpp Fueling/Valve_Control.cpp Fueling/Valve_Interface.cpp
 simulator=Testing/Testing_Producer.cpp
-drivers=./Drivers/MS5607_Driver.cpp
+drivers=Drivers/MS5607_Driver.cpp Drivers/Instrumentation.cpp
 
+#this target is for when we are on a vm that doesn't have the bcm libraries
 all:
-	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) $(drivers)-o fcmain
+	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) -o fcmain
+
+#this target is for when we are on the pi and can compile the gpio libraries
+drivers:
+	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) $(drivers) -o fcmain
+
+
 
 debug:
-	$(CC) $(flags) $(boost) -g main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) -o fc_debug
+	$(CC) $(flags) $(boost) -g main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) $(drivers) -o fc_debug
 
 clean:
 	rm fcmain fc_debug logfile.txt

@@ -4,8 +4,8 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "Globals.h"
-#include "Consumer.h"
+#include "../Globals.h"
+#include "../Consumer.h"
 #include "Instrumentation.h"
 
 //ctor

@@ -1,7 +1,9 @@
 //main.cpp
 
 #include "Logging.h"
-#include "Instrumentation.h"
+
+//#include "Instrumentation.h"
+
 #include "Globals.h"
 #include "Consumer.h"
 #include "MessageQueue.h"
@@ -38,7 +40,8 @@ void test_logging()
     c.push_back(&e);
 
     //define producers
-    Instrumentation flin = Instrumentation(c);
+    //commented out because this doesnt compile without rpi hardware
+    //Instrumentation flin = Instrumentation(c);
 
 
     //start the consumers
