@@ -33,6 +33,11 @@ class Testing_Producer : public Producer
         void set_data(list<string> cmd);
         void send_message(list<string> cmd);
 
+
+        //simulation programs
+        void gen_data(list<string> cmd);
+        void flat_data(list<string> cmd);
+
         //simulation objects
         Valve_Interface * valves;
         Logging * logger;

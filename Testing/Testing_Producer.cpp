@@ -66,6 +66,9 @@ void Testing_Producer::run()
         if(root_cmd == "debug")
             set_debug(tok);
 
+        if(root_cmd == "gen-data")
+            gen_data(tok);
+
     }
 }
 
@@ -107,6 +110,15 @@ void Testing_Producer::help()
     cout << endl;
 
 
+    //gen-data
+    cout << "gen-data <generator> *<arg>" << endl;
+    cout << "\t\t have the computer generate data for the sensor values." << endl;
+    cout << "\t\t The following generators are supported:" << endl;
+    cout << "\t\t gen-data flat *<value>" << endl;
+    cout << "\t\t\t all data is set to <value>. If value is not supplied it defaults to 1.234" << endl;
+    cout << endl; 
+
+
     //send-message
     cout << "send-message <dest> <message>" << endl;
     cout << "\t\t send a message via the msg queues." << endl;
@@ -117,6 +129,20 @@ void Testing_Producer::help()
     cout << " *** *** ***" << endl;
 }
 
+void Testing_Producer::gen_data(list<string> cmd)
+{
+    list<string> temp = cmd;
+    string first = temp.front();
+    temp.pop_front();
+    string second = temp.front();
+    temp.pop_front();
+
+    if(first != "gen-data")
+        return;
+
+    if(second == "flat")
+        flat_data(cmd);
+}
 
 //debug
 void Testing_Producer::set_debug(list<string> cmd)
@@ -283,6 +309,34 @@ void Testing_Producer::send_message(list<string> cmd)
         cout << "Sending " << message << " to " << dest << endl;
 
     ((*mq).second)->push(message); 
+
+}
+
+//simulation program
+//all data is set to a constant value
+void Testing_Producer::flat_data(list<string> cmd)
+{
+    string first = cmd.front();
+    cmd.pop_front();
+    string second = cmd.front();
+    cmd.pop_front();
+
+    float val = 1.234; //default
+    if( cmd.size() > 0)
+    {
+        val = stof(cmd.front());
+    }
+
+    sensor_data.pressure = val;
+    sensor_data.pressure = val;
+    sensor_data.pressure = val;
+    sensor_data.gyro.x = val;
+    sensor_data.gyro.y = val;
+    sensor_data.gyro.z = val;
+    sensor_data.accel.x = val;
+    sensor_data.accel.y = val;
+    sensor_data.accel.x = val;
+
 
 }
 
