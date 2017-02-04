@@ -16,22 +16,23 @@
 #include "Network.h"
 #include "../Bisem.h"
 #include "../MessageQueue.h"
-
+#include "../Producer.h"
 
 #ifndef COMMS_H
 #define COMMS_H
 
 using namespace std;
 
-class Comms
+class Comms : public Producer
 {
     public:
-        void start();
+        void run();
         void stop();
 
         Comms();
         ~Comms();
         MessageQueue * get_queue();
+        void add_msg_queue(string name, MessageQueue *mq);
 
     private:
         MessageQueue * msg_queue; //outgoing (to network/radio) msgs

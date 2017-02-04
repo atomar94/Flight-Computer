@@ -31,6 +31,7 @@ void Testing_Producer::add_msg_queue(string name, MessageQueue* mq)
 {
     add_msg_queue_pair(name, mq);
 }
+
 void Testing_Producer::run()
 {
     string input;
@@ -343,7 +344,7 @@ void Testing_Producer::send_message(list<string> cmd)
         if( (* (*it).end()) == '"')
         {
             message_flag = false;
-            message.append( (*it).substr(0, (*it).size() - 2));
+            message.append( (*it).substr(0, (*it).size() - 2) + " ");
 
             break;
             //this break stops the parse, so all metadata is ignored
@@ -359,8 +360,12 @@ void Testing_Producer::send_message(list<string> cmd)
     if(debug)
         cout << "Sending " << message << " to " << dest << endl;
 
-    cout << "this needs to be implemented" << endl;
-    //((mq).second)->push(message); 
+    Queued_Msg out;
+    out.to = dest;
+    out.dest = "needs to be implemented";
+    out.payload = message;
+
+    ((*mq).second)->push(out); 
 
 }
 

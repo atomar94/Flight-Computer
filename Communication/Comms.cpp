@@ -3,6 +3,9 @@
 #include "Network.h"
 #include "Comms.h"
 #include "../MessageQueue.h"
+#include <iostream>
+
+using namespace std;
 
 Comms::Comms()
 {
@@ -19,7 +22,12 @@ Comms::~Comms()
     delete b;
 }
 
-void Comms::start()
+void Comms::add_msg_queue(string name, MessageQueue* mq)
+{
+    add_msg_queue_pair(name, mq);
+}
+
+void Comms::run()
 {
     runflag = true;
     Queued_Msg outbound;
@@ -29,17 +37,22 @@ void Comms::start()
         //get latest
         get_network();
         get_radio();
-        
-        //write all the msgs in the queue
+
+        //handle the network and radio requests
+        dispatch();
+
+
+        //write all the inbox msgs in the queue
         int size = msg_queue->size();
         for(int _ = 0; _ < size; _++)
         {
             if(msg_queue->pop(outbound))
             {
                 //if outbound is for network
-                command_server.nwrite(outbound);
-                //if outbound is for radio
-                //radio.nwrite()
+                if(outbound.to == "network")
+                    command_server.nwrite(outbound);
+                //if(outbound.to == "radio")
+                    //radio.nwrite()
             }
         }
     }
@@ -72,9 +85,8 @@ void Comms::get_radio()
     return;
 }
 
-//a message came in and we need to send it
+//a message came in via wireless and we need to send it
 //to whatever class controls that functionality
-//
 //
 //This needs to read the metadata for the inbox objects
 // and decide which message queue to send it to.
@@ -82,15 +94,27 @@ void Comms::get_radio()
 void Comms::dispatch()
 {
     int size = inbox.size();
+    Queued_Msg outbound;
+    map<string, MessageQueue*>::iterator mq;
+
     for(int _ = 0; _ < size; _++)
     {
-        /*
-         * if msg.is_for(fueling)
-         *   send_to_fueling_queue(msg)
-         * else if msg.is_for(ignition)
-         *   send_to_ignition_queue(msg)
-         */
-    }
+        outbound = inbox.front();
+        inbox.pop_front();
+
+        //find matching message queue for this Queued_Msg.
+        mq = message_queue_table.find( outbound.to );
+        if (mq != message_queue_table.end())
+        {
+            ((*mq).second)->push(outbound);
+        }
+        else
+        {
+            cout << "couldn't find: " << outbound.to << " for payload<";
+            cout << outbound.payload << "> it was dropped." <<endl;
+        }
+
+   }
 }
 
 
