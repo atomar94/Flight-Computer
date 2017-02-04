@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <list>
+#include <unistd.h> //sleep and usleep
 #include "../Fueling/Valve_Interface.h"
 #include "../Logging.h"
 #include "../Globals.h"
@@ -36,6 +37,7 @@ void Testing_Producer::run()
     readyflag = true;
     while(readyflag)
     {
+        //start parsing
         cout << endl << ">";
         getline(cin, input);
         if(debug)
@@ -52,27 +54,58 @@ void Testing_Producer::run()
             }
 
         } 
+
+        //route commands
         string root_cmd = tok.front();
         
         if(root_cmd == "help")
             help();
 
-        if(root_cmd == "set-data")
+        else if(root_cmd == "set-data")
             set_data(tok);
 
-        if(root_cmd == "send-message")
+        else if(root_cmd == "send-message")
             send_message(tok);
 
-        if(root_cmd == "debug")
+        else if(root_cmd == "debug")
             set_debug(tok);
 
-        if(root_cmd == "gen-data")
+        else if(root_cmd == "gen-data")
             gen_data(tok);
 
-    }
+        else if(root_cmd == "tick")
+            tick(tok); //wake up in the morning feelin' like P diddy
+
+        else
+            cout << "cmd " << root_cmd << " not found" << endl;
+
+        //main loop
+        for(int i = 0; i < run_counter; i++)
+        {
+            if(debug)
+            {
+                cout << "in main loop " << i << " of "; 
+                cout << run_counter << endl;
+            }
+            get_sensors();
+            for( list<Consumer*>::iterator c = consumers.begin(); 
+                    c != consumers.end(); 
+                    ++c)
+             {
+                //if we are able to update shared mem...
+                if( (*c)->update_shared_memory(&sensor_data) )
+	            {
+                    (*c)->notify(); //let the consumer know!
+                }
+	        }
+            usleep(100*1000); //100 ms
+        }
+        run_counter = 0;
+
+    } //end main loop
 }
 
-
+//this should probably call the simulator program
 void Testing_Producer::get_sensors()
 {
     return;
@@ -95,9 +128,12 @@ void Testing_Producer::help()
     cout << "debug <true/false>" << endl;
     cout << "\t\t true to put the simulator in debug mode. false for silence." << endl;
 
-    //stop
-    cout << "stop" << endl;
-    cout << "\t\t stop the producer loop." << endl;
+
+    //tick
+    cout << "tick *<num>" << endl;
+    cout << "\t\t Have the computer do <num> iterations" << endl;
+    cout << "\t\t without stopping to read cmds." << endl;
+    cout << "\t\t if <num> is not supplied it defaults to 1" << endl;
 
 
     //set-data
@@ -170,6 +206,21 @@ void Testing_Producer::set_debug(list<string> cmd)
 
 }
 
+void Testing_Producer::tick(list<string> cmd)
+{
+    string first = cmd.front();
+    cmd.pop_front();
+
+    int times = 1;
+    if(cmd.size() > 0)
+        times = stoi(cmd.front());
+
+    if(debug)
+        cout << "setting run_counter to " << times << endl;
+    run_counter = times; 
+
+}
+
 void Testing_Producer::stop()
 {
     readyflag = false;
@@ -209,10 +260,10 @@ void Testing_Producer::set_data(list<string> cmd)
         sensor_data.pressure = val;
 
     else if(second == "temperature")
-        sensor_data.pressure = val;
+        sensor_data.temperature = val;
 
     else if(second == "altitude")
-        sensor_data.pressure = val;
+        sensor_data.altitude = val;
 
     else if(second == "gyrox")
         sensor_data.gyro.x = val;
@@ -328,8 +379,8 @@ void Testing_Producer::flat_data(list<string> cmd)
     }
 
     sensor_data.pressure = val;
-    sensor_data.pressure = val;
-    sensor_data.pressure = val;
+    sensor_data.temperature = val;
+    sensor_data.altitude = val;
     sensor_data.gyro.x = val;
     sensor_data.gyro.y = val;
     sensor_data.gyro.z = val;

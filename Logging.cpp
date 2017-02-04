@@ -52,7 +52,8 @@ void Logging::run()
                 a = 2;
             if( fp->fail())
                 a = 3;
-            (*fp) << data.data1 << ", " << data.data2 << std::endl;
+            (*fp) << data.pressure << "\t" << data.temperature
+               << "\t" << data.altitude << std::endl;
         }
         if(msg_queue->size() > 0) //if there are more things in the queue
         {
@@ -87,4 +88,7 @@ bool Logging::open_file()
     while(stat(filename, &buf) != -1); //while this filename already exists...
 
     fp->open(filename, std::ofstream::out);
+    (*fp) << "Pressure\tTemp\tAlt" << endl;
 }
+
+

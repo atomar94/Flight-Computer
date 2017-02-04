@@ -27,20 +27,21 @@ class Testing_Producer : public Producer
     private:
         void get_sensors();
 
-        //commands you can pass in
+        //FC control commands
         void help();
         void set_debug(list<string> cmd);
         void set_data(list<string> cmd);
         void send_message(list<string> cmd);
 
+        //simulator control commands
+        void tick(list<string> cmd);
 
         //simulation programs
         void gen_data(list<string> cmd);
         void flat_data(list<string> cmd);
 
-        //simulation objects
-        Valve_Interface * valves;
-        Logging * logger;
+        //simulator internal variables
+        int run_counter; //how many times we should iterate the FC
 
         //helper functions
         list<string> split(string std, char delim);
