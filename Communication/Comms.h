@@ -31,12 +31,12 @@ class Comms
 
         Comms();
         ~Comms();
-        MessageQueue * get_msg_queue();
+        MessageQueue * get_queue();
 
     private:
-        MessageQueue * msg_queue; //to be sent
-        Bisem * b; //needed for msg_queue but not actualy used
-        std::list<string> inbox; //received msg buffer
+        MessageQueue * msg_queue; //outgoing (to network/radio) msgs
+        Bisem * b; //needed for msg_queue but not actually used
+        std::list<string> inbox; //incoming (from network) msgs
         Network command_server;
         bool runflag;        
 

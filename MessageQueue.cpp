@@ -39,16 +39,16 @@ MessageQueue::~MessageQueue()
     std::string * temp;
     while( msg_queue.pop(temp) )
     {
-        std::cout << "Deleting : " << *temp << std::endl;
+        //std::cout << "Deleting : " << *temp << std::endl;
         delete temp;
         qsize--;
     }
-    std::cout << "done with MessageQueue dtor" << std::endl;
+    //std::cout << "done with MessageQueue dtor" << std::endl;
 }
 
 //blocking
 //returns true on success
-bool MessageQueue::push(std::string message)
+bool MessageQueue::push(Queued_Msg message)
 {
     /*
     * boost::lockfree::queue requires things in it to have "trivial copy and assignment constructors"
