@@ -10,14 +10,19 @@
  * and control a single valve.
  */
 
+#include <string>
+
+using namespace std;
+
 class Valve
 {
     public:
         bool is_actuated(); 
-        bool actuate(string valve_name);
-        string name;
+        bool actuate();
+        string name();
         string metadata;
-}
+        string m_name;
+};
 
 
 #endif
