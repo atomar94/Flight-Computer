@@ -71,6 +71,7 @@ bool MessageQueue::push(std::string message)
     }
     else
         b->post(); //if we succeeded then post to the bisem
+    //dont worry, that string gets deleted later (in MessageQueue::pop()!)
     return retval;
 }
 

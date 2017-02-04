@@ -1,29 +1,50 @@
 //Comms.h
+/*
+ * Comms class reads what's in its message queue and sends
+ * it to the correct communication medium. If we are using
+ * the network then it formats an http request and sends
+ * it accross the network. if its radio, we send it to the
+ * radio.
+ *
+ * Anyone can add messages into the class and it will send
+ * it.
+ */
 
-#include "Consumer.h"
 #include <list>
 #include <string>
+
+#include "Network.h"
+#include "../Bisem.h"
+#include "../MessageQueue.h"
+
 
 #ifndef COMMS_H
 #define COMMS_H
 
-class Comms : Consumer
+using namespace std;
+
+class Comms
 {
     public:
-        void run();
+        void start();
         void stop();
 
-        Comms(std::list<string> msg_ll);
+        Comms();
+        ~Comms();
+        MessageQueue * get_msg_queue();
 
     private:
-        std::list<string> msg_queue; 
-}
+        MessageQueue * msg_queue; //to be sent
+        Bisem * b; //needed for msg_queue but not actualy used
+        std::list<string> inbox; //received msg buffer
+        Network command_server;
+        bool runflag;        
 
+        void get_network(); //load network recv into the inbox
+        void get_radio(); //load radio recv into the inbox
+        void dispatch(); //send the msgs in the inbox to their destinations.
+        
 
-
-
-
-
-
+};
 
 #endif
