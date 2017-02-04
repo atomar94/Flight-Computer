@@ -8,7 +8,7 @@
 
 QueuedConsumer::QueuedConsumer()
 {
-    std::cout << "QueuedConsumer ctor" << std::endl;
+    //std::cout << "QueuedConsumer ctor" << std::endl;
     msg_queue = new MessageQueue(ready);
 }
 
@@ -16,14 +16,14 @@ QueuedConsumer::QueuedConsumer()
  
 QueuedConsumer::QueuedConsumer(const QueuedConsumer &other)
 {
-    std::cout << "QueuedConsumer copy ctor" << std::endl;
+    //std::cout << "QueuedConsumer copy ctor" << std::endl;
     msg_queue = new MessageQueue(ready);
 
 }
 
 QueuedConsumer & QueuedConsumer::operator= (const QueuedConsumer &other)
 {
-    std::cout << "QueuedConsumer assignment operator" << std::endl;
+    //std::cout << "QueuedConsumer assignment operator" << std::endl;
     msg_queue = new MessageQueue(ready);
     return *this;
 }
@@ -31,7 +31,7 @@ QueuedConsumer & QueuedConsumer::operator= (const QueuedConsumer &other)
 
 QueuedConsumer::~QueuedConsumer()
 {
-    std::cout << "QueuedConsumer dtor" << std::endl;
+    //std::cout << "QueuedConsumer dtor" << std::endl;
     delete msg_queue;
 }
 

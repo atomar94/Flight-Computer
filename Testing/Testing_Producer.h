@@ -29,6 +29,7 @@ class Testing_Producer : public Producer
 
         //commands you can pass in
         void help();
+        void set_debug(list<string> cmd);
         void set_data(list<string> cmd);
         void send_message(list<string> cmd);
 
@@ -40,7 +41,7 @@ class Testing_Producer : public Producer
         list<string> split(string std, char delim);
 
         //more verbose output
-        bool debug = true;
+        bool debug = false;
 
 };
 

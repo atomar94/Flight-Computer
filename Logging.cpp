@@ -15,14 +15,14 @@ using namespace std;
 
 Logging::Logging() : QueuedConsumer()
 {
-    std::cout << "Logging ctor" << std::endl;
+    //std::cout << "Logging ctor" << std::endl;
     fp = new std::ofstream();
     open_file();
 }
 
 Logging::~Logging()
 {
-    std::cout << "Logging dtor" << std::endl;
+    //std::cout << "Logging dtor" << std::endl;
     delete fp;
 }
 

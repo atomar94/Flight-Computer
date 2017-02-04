@@ -57,7 +57,7 @@ void test_logging()
 
 }
 
-
+//simulator
 void fuel_testing()
 {
 
@@ -82,21 +82,15 @@ void fuel_testing()
     // if you pass a pointer or the object itself it will call the
     // copy constructor and then the queued messages and semaphores
     // will not be the same memory location and they wont work.
-
-    std::cout << "spawning consumer thread" << std::endl;
     std::thread valve_control_thread( &Consumer::run, &valves);
     std::thread logging_thread( &Consumer::run, &logging);
 
     //start the simulator
-    std::cout << "spawning producer thread" << std::endl;
     std::thread sim_thread(&Producer::run, &sim);
 
     valve_control_thread.join();
     logging_thread.join();
     sim_thread.join();
-
-
-
 
 }
 

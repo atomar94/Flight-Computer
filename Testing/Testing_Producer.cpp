@@ -55,14 +55,16 @@ void Testing_Producer::run()
         string root_cmd = tok.front();
         
         if(root_cmd == "help")
-        {
             help();
-        }
+
         if(root_cmd == "set-data")
             set_data(tok);
 
         if(root_cmd == "send-message")
             send_message(tok);
+
+        if(root_cmd == "debug")
+            set_debug(tok);
 
     }
 }
@@ -85,11 +87,15 @@ void Testing_Producer::help()
     //help
     cout << "help" << endl;
     cout << "\t\t print help information" << endl;
-    cout << endl;
+
+    //debug
+    cout << "debug <true/false>" << endl;
+    cout << "\t\t true to put the simulator in debug mode. false for silence." << endl;
 
     //stop
     cout << "stop" << endl;
     cout << "\t\t stop the producer loop." << endl;
+
 
     //set-data
     cout << "set-data <data-field> <value>" << endl;
@@ -100,6 +106,7 @@ void Testing_Producer::help()
     cout << ".'accelz'" << endl;
     cout << endl;
 
+
     //send-message
     cout << "send-message <dest> <message>" << endl;
     cout << "\t\t send a message via the msg queues." << endl;
@@ -108,6 +115,33 @@ void Testing_Producer::help()
     cout << "\t\t message should be surrounded in quotes" << endl;
     cout << "\t\t example: send-message fueling \"my message\"" << endl;
     cout << " *** *** ***" << endl;
+}
+
+
+//debug
+void Testing_Producer::set_debug(list<string> cmd)
+{
+    string first = cmd.front();
+    cmd.pop_front();
+    string val = cmd.front();
+    if(first != "debug")
+        return;
+    else if(val == "true")
+    {
+        debug = true;
+        cout << "Simulator set debug mode." << endl;
+    }
+    else if(val == "false")
+    {
+        debug = false;
+        cout << "Simulator set to silent mode." << endl;
+    }
+    else
+    {
+        cout << "Couldn't read value: " << val << endl;
+        cout << "this must be 'true' or 'false' (no quotes)" << endl;
+    }
+
 }
 
 void Testing_Producer::stop()
