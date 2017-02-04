@@ -6,6 +6,11 @@
 
 #include "../Fueling/Valve_Interface.h"
 #include "../Logging.h"
+#include "../Producer.h"
+#include <list>
+#include <string>
+
+using namespace std;
 
 class Testing_Producer : public Producer
 {
@@ -13,21 +18,24 @@ class Testing_Producer : public Producer
         Testing_Producer();
         ~Testing_Producer();
 
-        add_msg_queue_pair(); //todo: this could go in the producer class
         //overridden
         void run();
-        void stop();
 
     private:
         //commands you can pass in
         void help();
-        void set_data();
-        void send_message();
-
+        void set_data(list<string> cmd);
+        void send_message(list<string> cmd);
 
         //simulation objects
         Valve_Interface * valves;
         Logging * logger;
+
+        //helper functions
+        list<string> split(string std, char delim);
+
+
+
 };
 
 

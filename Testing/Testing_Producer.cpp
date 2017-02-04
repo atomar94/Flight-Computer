@@ -6,9 +6,10 @@
 #include <sstream>
 #include <iostream>
 #include <list>
-#include <pair>
 #include "../Fueling/Valve_Interface.h"
 #include "../Logging.h"
+#include "../Globals.h"
+#include "../Producer.h"
 
 using namespace std;
 
@@ -24,7 +25,9 @@ Testing_Producer::Testing_Producer() : Producer()
     consumers.push_back(valves);
     consumers.push_back(logger);
 
-    add_msg_queue_pair("fueling", valves.get_queue());
+    string fueling = "fueling";
+    add_msg_queue_pair(fueling, valves->get_queue());
+    add_msg_queue_pair("logging", logger->get_queue());
 }
 
 Testing_Producer::~Testing_Producer()
@@ -48,11 +51,18 @@ void Testing_Producer::run()
         {
             help();
         }
+        if(root_cmd == "set-data")
+            set_data(tok);
+
+        if(root_cmd == "send-message")
+            send_message(tok);
 
     }
 }
 
+//cmd line args below
 
+//help
 void Testing_Producer::help()
 {
 
@@ -73,8 +83,8 @@ void Testing_Producer::help()
     cout << endl;
 
     //send-message
-    cout << "send-message <dest> <message> <metadata>*" << endl;
-    cout << "\t\t send a message via the msg queues. metadata is optional." << end;
+    cout << "send-message <dest> <message>" << endl;
+    cout << "\t\t send a message via the msg queues." << endl;
     cout << "\t\t these dests are available:" << endl;
     cout << "\t\t 'fueling', 'logging''" << endl;
     cout << "\t\t message should be surrounded in quotes" << endl;
@@ -82,12 +92,21 @@ void Testing_Producer::help()
     cout << " *** *** ***" << endl;
 }
 
+//set-data <data-field> <value>
+//
+//use this to set the value of a datafield that gets passed to the consumers
 void Testing_Producer::set_data(list<string> cmd)
 {
+    string first;
+    string second;
+    string third;
     try {
-        string first = cmd.pop_front();
-        string second =  cmd.pop_front();
-        string third = cmd.pop_front();
+        first = cmd.front();
+        cmd.pop_front();
+        second = cmd.front();
+        cmd.pop_front();
+        third = cmd.front();
+        cmd.pop_front();
     } 
     catch(const exception e)
     {
@@ -141,23 +160,39 @@ void Testing_Producer::send_message(list<string> cmd)
 {
     string message = "";
     bool message_flag = false;
+    string dest = "";
 
+
+    //find matching message queue for this destination.
+    map<string, MessageQueue*>::iterator mq;
+    mq = message_queue_table.find(dest);
+    if (mq == message_queue_table.end())
+    {
+        cout << "Could not find dest: " << dest << endl;
+        return;
+    }
+
+
+
+    int i = 0;
     for(list<string>::iterator it = cmd.begin();
             it != cmd.end();
-            it++)
+            it++, i++)
     {
-        if(it == cmd.begin() && it != "send-message")
+        if(it == cmd.begin() && (*it) != "send-message")
             return;
+    
+        if(i == 1)
+            dest = *it;
 
-
-        if((*it).front() == '"')
+        if( (*it).front() == '"')
         {
             message_flag = true; //msg has started
             message.append( (*it).substr(1, (*it).size() - 1) );
             continue;
         }
 
-        if((*it).end() == '"')
+        if( (* (*it).end()) == '"')
         {
             message_flag = false;
             message.append( (*it).substr(0, (*it).size() - 1));
@@ -171,12 +206,13 @@ void Testing_Producer::send_message(list<string> cmd)
         {
             message.append( *it );
         }
-    }
+    }//end for token in cmd_string
 
+    ((*mq).second)->push(message); 
 
 }
 
-list<string> split(string str, char delim)
+list<string> Testing_Producer::split(string str, char delim)
 {
     stringstream ss;
     ss.str(str);
