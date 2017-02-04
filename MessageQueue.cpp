@@ -39,16 +39,16 @@ MessageQueue::~MessageQueue()
     std::string * temp;
     while( msg_queue.pop(temp) )
     {
-        std::cout << "Deleting : " << *temp << std::endl;
+        //std::cout << "Deleting : " << *temp << std::endl;
         delete temp;
         qsize--;
     }
-    std::cout << "done with MessageQueue dtor" << std::endl;
+    //std::cout << "done with MessageQueue dtor" << std::endl;
 }
 
 //blocking
 //returns true on success
-bool MessageQueue::push(std::string message)
+bool MessageQueue::push(Queued_Msg message)
 {
     /*
     * boost::lockfree::queue requires things in it to have "trivial copy and assignment constructors"
@@ -56,7 +56,12 @@ bool MessageQueue::push(std::string message)
     * pointers do! so we dynamically allocate, copy, and push.
     * on dequeue we pop, copy, and deallocate.
     */
-    std::string * temp = new std::string(message);
+    //std::string * temp = new std::string(message);
+
+    Queued_Msg * temp = new Queued_Msg;
+    temp->to = new string(message.to);
+    temp->dest = new string(message.dest);
+    temp->payload = new string(payload);
     
     pthread_mutex_lock(&write_lock);
     bool retval = msg_queue.unsynchronized_push(temp);
@@ -67,18 +72,23 @@ bool MessageQueue::push(std::string message)
     if(!retval) //if it didnt go in then delete it here.
     {
         qsize--;
+        delete temp->to;
+        delete temp->dest;
+        delete temp->payload;
         delete temp;
     }
     else
         b->post(); //if we succeeded then post to the bisem
+    //dont worry, that string gets deleted later (in MessageQueue::pop()!)
     return retval;
 }
 
 //returns true on success.
 //loads the message into $message
-bool MessageQueue::pop(std::string &message)
+bool MessageQueue::pop(Queued_Msg &message)
 {
-    std::string * temp;
+    //std::string * temp;
+    Queued_Message * temp;
     bool retval = msg_queue.pop(temp);
     qsize--;
     if( !retval ) //if we failed
@@ -86,7 +96,15 @@ bool MessageQueue::pop(std::string &message)
         qsize++;
         return retval;
     }
-    message = std::string(*temp);
+    //message = std::string(*temp);
+
+    message.to = string(temp->to);
+    message.dest = string(temp->dest);
+    message.payload = string(temp->payload);
+
+    delete temp->to;
+    delete temp->dest;
+    delete temp->payload;
     delete temp;
     return retval;
 }

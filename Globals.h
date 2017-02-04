@@ -26,9 +26,6 @@ struct datastruct {
     three_axis accel =  (three_axis) {.x=0, .y=0, .z=0};
     three_axis mag =   (three_axis) {.x=0, .y=0, .z=0};
 
-
-
-
 };
 
 #endif

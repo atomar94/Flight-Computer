@@ -10,6 +10,18 @@
 #ifndef MESSAGEQUEUE_H
 #define MESSAGEQUEUE_H
 
+//message structure
+
+using namespace std;
+
+struct Queued_Msg
+{
+    string * to; //what object
+    string * dest; //where its going (eventually)
+    string * payload; //information we want to send
+
+};
+
 //threadsafe mutlireader multiwriter dynamically allocating queue.
 //Note this class has no copy constructor and some member variabled dont have copy constructors so
 //unless we define our own we can't use copy assignment.
@@ -23,13 +35,13 @@ class MessageQueue
         MessageQueue & operator= (const MessageQueue &other);
         ~MessageQueue();
 
-        bool push(std::string message);
-        bool pop(std::string &message);
+        bool push(Queued_Message message);
+        bool pop(Queued_Message &message);
         int size();
 
     private:
         pthread_mutex_t write_lock;
-        boost::lockfree::queue<std::string*> msg_queue{32}; //start with 32 prealloc'ed nodes
+        boost::lockfree::queue<Queued_Msg*> msg_queue{32}; //start with 32 prealloc'ed nodes
         std::atomic<int> qsize;
         Bisem * b;
 

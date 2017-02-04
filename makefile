@@ -7,10 +7,11 @@ helpers=Bisem.cpp MessageQueue.cpp
 fueling=Fueling/Valve.cpp Fueling/Valve_Control.cpp Fueling/Valve_Interface.cpp
 simulator=Simulator/Testing_Producer.cpp
 drivers=Drivers/MS5607_Driver.cpp Drivers/Instrumentation.cpp
+comms=Communication/Comms.cpp Communications/Network.cpp
 
 #this target is for when we are on a vm that doesn't have the bcm libraries
 all:
-	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) -o fcmain
+	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) $(comms) -o fcmain
 
 #this target is for when we are on the pi and can compile the gpio libraries
 drivers:
