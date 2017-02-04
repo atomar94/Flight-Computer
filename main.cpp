@@ -59,31 +59,47 @@ void test_logging()
 
 }
 
-class a
-{
-    public:
-        int * ptr;
-        a();
-        ~a();
-        void foo();
-};
 
-a::a()
+void fuel_testing()
 {
-    std::cout << "in ctor" << std::endl;
-    ptr = new int();
+
+    Valve_Interface valves = Valve_Interface();
+
+
+
+
+    //put consumers in a list
+    std::list<Consumer*> c;
+    c.push_back(&valves);
+
+
+    //define producers
+    Instrumentation flin = Instrumentation(c);
+
+
+    //start the consumers
+    // NOTE: THese threads must take a reference to the object.
+    // if you pass a pointer or the object itself it will call the
+    // copy constructor and then the queued messages and semaphores
+    // will not be the same memory location and they wont work.
+
+    std::cout << "spawning consumer thread" << std::endl;
+    std::thread valve_control_thread( &Consumer::run, &valves);
+
+
+    //start the producers
+    std::cout << "spawning producer thread" << std::endl;
+    std::thread flinthread(&Producer::run, &flin);
+
+    echothread.join();
+    logthread.join();
+    flinthread.join();
+
+
+
+
 }
 
-a::~a()
-{
-    std::cout << "in dtor" << std::endl;
-    delete ptr;
-}
-
-void a::foo()
-{
-    *ptr = 2;
-}
 int main() {
 
     //test_bisem();

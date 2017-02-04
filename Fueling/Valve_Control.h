@@ -12,18 +12,19 @@ using namespace std;
 class Valve_Control
 {
 
-    //todo: this needs to get populated somehow
-    list<Valve> valve_list;
+    public:
+        //todo: this needs to get populated somehow
+        list<Valve> valve_list;
 
-    //APIs
-    bool vent_tank();
-    //
-    //...
+        //APIs
+        bool vent_tank();
+        //
+        //...
 
 
-    //valve.h calls through valve_list
-    bool actuate(string valve_name);
-    bool is_actuated(string valve_name);
+        //valve.h calls through valve_list
+        bool actuate(string valve_name);
+        bool is_actuated(string valve_name);
 
 };
 
