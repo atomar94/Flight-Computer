@@ -215,6 +215,8 @@ void Testing_Producer::send_message(list<string> cmd)
     string message = "";
     bool message_flag = false;
     int i = 0;
+    
+    //form message string from tokenized input
     for(list<string>::iterator it = cmd.begin();
             it != cmd.end();
             it++, i++)
@@ -223,14 +225,14 @@ void Testing_Producer::send_message(list<string> cmd)
         if( (*it).front() == '"')
         {
             message_flag = true; //msg has started
-            message.append( (*it).substr(1, (*it).size() - 1) );
+            message.append( (*it).substr(1, (*it).size() - 1) + " ");
             continue;
         }
 
         if( (* (*it).end()) == '"')
         {
             message_flag = false;
-            message.append( (*it).substr(0, (*it).size() - 1));
+            message.append( (*it).substr(0, (*it).size() - 2));
 
             break;
             //this break stops the parse, so all metadata is ignored

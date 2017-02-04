@@ -10,6 +10,9 @@
 #include <iostream> //cout
 #include <fstream> //file stuff
 
+
+using namespace std;
+
 Logging::Logging() : QueuedConsumer()
 {
     std::cout << "Logging ctor" << std::endl;
@@ -70,7 +73,8 @@ void Logging::stop()
 //returns true on success else false
 bool Logging::open_file()
 {
-    char * filename_formatter = "log%d.txt";
+    string filename_formatter_str = "./Logs/log%d.txt";
+    const char * filename_formatter = filename_formatter_str.c_str();
     char filename[16];
     int i = 0;
 
