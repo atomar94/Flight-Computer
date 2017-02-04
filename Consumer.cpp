@@ -68,7 +68,7 @@ bool Consumer::update_shared_memory(struct datastruct * newdata)
 }
 
 //if a valid radio_queue was supplied then push into it
-void Consumer::push_radio(std::string msg)
+void Consumer::push_radio(Queued_Msg msg)
 {
     if(radio_queue)
     {
@@ -77,7 +77,7 @@ void Consumer::push_radio(std::string msg)
 }
 
 //if a valid log_queue was supplied then push into it
-void Consumer::push_log(std::string msg)
+void Consumer::push_log(Queued_Msg msg)
 {
     if(log_queue)
     {

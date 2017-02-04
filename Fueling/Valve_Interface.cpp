@@ -3,6 +3,7 @@
 
 #include "Valve_Interface.h"
 #include <string>
+#include "../MessageQueue.h"
 
 void Valve_Interface::run()
 {
@@ -10,7 +11,7 @@ void Valve_Interface::run()
     while(runflag)
     {
 
-        string message; 
+        Queued_Msg message; 
         if( msg_queue->pop(message) )
         {
             //parse message

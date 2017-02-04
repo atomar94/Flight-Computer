@@ -36,7 +36,7 @@ class Comms
     private:
         MessageQueue * msg_queue; //outgoing (to network/radio) msgs
         Bisem * b; //needed for msg_queue but not actually used
-        std::list<string> inbox; //incoming (from network) msgs
+        std::list<Queued_Msg> inbox; //incoming (from network) msgs
         Network command_server;
         bool runflag;        
 

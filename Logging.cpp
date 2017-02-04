@@ -29,7 +29,7 @@ Logging::~Logging()
 //main loop for this consumer
 void Logging::run()
 {
-    std::string message;
+    Queued_Msg message;
 
     runflag = true;
     while(runflag)
@@ -38,7 +38,7 @@ void Logging::run()
 
         if(msg_queue->pop(message))
         {
-            (*fp) << message << std::endl;
+            (*fp) << message.payload << std::endl;
         } 
         else
         {
@@ -90,5 +90,6 @@ bool Logging::open_file()
     fp->open(filename, std::ofstream::out);
     (*fp) << "Pressure\tTemp\tAlt" << endl;
 }
+
 
 

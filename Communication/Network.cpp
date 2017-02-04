@@ -37,29 +37,35 @@ Network::Network()
     }
 }
 
-int Network::nwrite(string msg)
+int Network::nwrite(Queued_Msg msg)
 {
     if(ground_socket > 0)
-        return write(ground_socket, msg.c_str(), 0);
+        return write(ground_socket, msg.payload.c_str(), 0);
     else
         return -1;
 
 }
 
-string Network::nread()
+//we still need to parse the data we read and load it into the Queued_Msg
+Queued_Msg Network::nread()
 {
+    Queued_Msg temp;
     if(ground_socket < 0)
-        return "";
+        return temp;
 
     char buf[512];
     if(read(ground_socket, buf, 511) <= 0)
     {
-        return "";
+        return temp;
     }
     else
     {
-        string ret = buf;
-        return buf;
+        //parse buf and load it into ret;
+        Queued_Msg ret;
+        ret.to = "Network::nread() not implemented yet";
+        ret.dest = "Network::nread() not implemented yet";
+        ret.payload = "Network::nread() not implemented yet";
+        return ret;
     }
 }
 

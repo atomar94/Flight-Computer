@@ -7,7 +7,7 @@ helpers=Bisem.cpp MessageQueue.cpp
 fueling=Fueling/Valve.cpp Fueling/Valve_Control.cpp Fueling/Valve_Interface.cpp
 simulator=Simulator/Testing_Producer.cpp
 drivers=Drivers/MS5607_Driver.cpp Drivers/Instrumentation.cpp
-comms=Communication/Comms.cpp Communications/Network.cpp
+comms=Communication/Comms.cpp Communication/Network.cpp
 
 #this target is for when we are on a vm that doesn't have the bcm libraries
 all:

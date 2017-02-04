@@ -359,7 +359,8 @@ void Testing_Producer::send_message(list<string> cmd)
     if(debug)
         cout << "Sending " << message << " to " << dest << endl;
 
-    ((*mq).second)->push(message); 
+    cout << "this needs to be implemented" << endl;
+    //((mq).second)->push(message); 
 
 }
 

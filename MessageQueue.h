@@ -16,9 +16,9 @@ using namespace std;
 
 struct Queued_Msg
 {
-    string * to; //what object
-    string * dest; //where its going (eventually)
-    string * payload; //information we want to send
+    string to; //what object
+    string dest; //where its going (eventually)
+    string payload; //information we want to send
 
 };
 
@@ -35,8 +35,8 @@ class MessageQueue
         MessageQueue & operator= (const MessageQueue &other);
         ~MessageQueue();
 
-        bool push(Queued_Message message);
-        bool pop(Queued_Message &message);
+        bool push(Queued_Msg message);
+        bool pop(Queued_Msg &message);
         int size();
 
     private:

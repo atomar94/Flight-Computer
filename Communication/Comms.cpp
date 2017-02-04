@@ -2,6 +2,7 @@
 
 #include "Network.h"
 #include "Comms.h"
+#include "../MessageQueue.h"
 
 Comms::Comms()
 {
@@ -21,7 +22,7 @@ Comms::~Comms()
 void Comms::start()
 {
     runflag = true;
-    string outbound = "";
+    Queued_Msg outbound;
 
     while(runflag)
     {
@@ -54,10 +55,11 @@ void Comms::stop()
 //into the inbox
 void Comms::get_network()
 {
-    string msg;
-    if( (msg = command_server.nread()) != "")
+    Queued_Msg q_msg;
+    q_msg = command_server.nread();
+    if( q_msg.to != "invalid" )
     {
-        inbox.push_back(msg);
+        inbox.push_back(q_msg);
     }
 }
 

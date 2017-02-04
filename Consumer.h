@@ -38,8 +38,8 @@ class Consumer
         //returns true on update, else false.
         bool update_shared_memory(struct datastruct * newdata);
 
-        void push_radio(std::string msg); //push string to radio queue
-        void push_log(std::string msg); //push string to logging queue
+        void push_radio(Queued_Msg msg); //push string to radio queue
+        void push_log(Queued_Msg msg); //push string to logging queue
 };
 
 #endif
