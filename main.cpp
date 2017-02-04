@@ -6,6 +6,8 @@
 #include "Consumer.h"
 #include "MessageQueue.h"
 #include "Echo.h"
+#include "Fueling/Valve_Interface.h"
+
 
 #include <pthread.h>
 #include <list>
@@ -46,16 +48,16 @@ void test_logging()
     // will not be the same memory location and they wont work.
 
     std::cout << "spawning consumer thread" << std::endl;
-    std::thread logthread(&Consumer::run, &log);
-    std::thread echothread(&Consumer::run, &e);
+    //std::thread logthread(&Consumer::run, &log);
+    //std::thread echothread(&Consumer::run, &e);
 
     //start the producers
     std::cout << "spawning producer thread" << std::endl;
-    std::thread flinthread(&Producer::run, &flin);
+    //std::thread flinthread(&Producer::run, &flin);
 
-    echothread.join();
-    logthread.join();
-    flinthread.join();
+
+
+
 
 }
 
@@ -89,11 +91,11 @@ void fuel_testing()
 
     //start the producers
     std::cout << "spawning producer thread" << std::endl;
-    std::thread flinthread(&Producer::run, &flin);
+    //std::thread flinthread(&Producer::run, &flin);
 
-    echothread.join();
-    logthread.join();
-    flinthread.join();
+    //echothread.join();
+    //logthread.join();
+    //flinthread.join();
 
 
 
