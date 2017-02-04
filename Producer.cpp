@@ -24,3 +24,12 @@ void Producer::help()
         (*c)->help();
     }
 }
+
+//add a message queue pointer to the internal table, specified
+//with a name.
+void Producer::add_msg_queue_pair(string name, MessageQueue * mq)
+{
+   message_queue_table.insert( pair<string, MessageQueue*>(name, mq));
+}
+
+
