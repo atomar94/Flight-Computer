@@ -10,8 +10,8 @@
 #include "../Fueling/Valve_Interface.h"
 #include "../Logging.h"
 #include "../Globals.h"
-#include "../Producer.h"
-#include "../Consumer.h"
+#include "../Libraries/Producer.h"
+#include "../Libraries/Consumer.h"
 
 
 using namespace std;

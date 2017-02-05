@@ -1,7 +1,7 @@
 //Ignition.h
 
-#include "../Consumer.h"
-#include "../MessageQueue.h"
+#include "../Libraries/Consumer.h"
+#include "../Libraries/MessageQueue.h"
 
 /*
 * This class is an example of a Consumer class.

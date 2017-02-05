@@ -5,8 +5,8 @@
 //#include "Instrumentation.h"
 
 #include "Globals.h"
-#include "Consumer.h"
-#include "MessageQueue.h"
+#include "Libraries/Consumer.h"
+#include "Libraries/MessageQueue.h"
 #include "Echo.h"
 #include "Fueling/Valve_Interface.h"
 #include "Simulator/Testing_Producer.h"

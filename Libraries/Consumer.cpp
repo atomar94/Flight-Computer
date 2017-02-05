@@ -1,7 +1,7 @@
 //Consumer.cpp
 
 #include "Consumer.h"
-#include "Globals.h"
+#include "../Globals.h"
 #include "string.h"
 #include "Bisem.h"
 

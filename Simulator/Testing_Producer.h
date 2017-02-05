@@ -6,10 +6,10 @@
 
 #include "../Fueling/Valve_Interface.h"
 #include "../Logging.h"
-#include "../Producer.h"
+#include "../Libraries/Producer.h"
 #include <list>
 #include <string>
-#include "../Consumer.h"
+#include "../Libraries/Consumer.h"
 
 using namespace std;
 

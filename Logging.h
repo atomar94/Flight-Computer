@@ -1,6 +1,6 @@
 //logging.h
 
-#include "QueuedConsumer.h"
+#include "Libraries/QueuedConsumer.h"
 #include "Globals.h"
 #include <pthread.h>
 #include <fstream> //output to file

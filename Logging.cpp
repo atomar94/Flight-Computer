@@ -1,8 +1,8 @@
 //Logging.cpp
 #include "Logging.h"
-#include "QueuedConsumer.h"
+#include "Libraries/QueuedConsumer.h"
 #include "Globals.h"
-#include "Bisem.h"
+#include "Libraries/Bisem.h"
 
 #include <pthread.h> //mutex
 #include <sys/stat.h> //check if file exists

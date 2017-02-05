@@ -2,7 +2,7 @@
 
 #include "Bisem.h"
 #include <pthread.h>
-#include "Globals.h"
+#include "../Globals.h"
 #include "MessageQueue.h"
 
 #ifndef CONSUMER_H

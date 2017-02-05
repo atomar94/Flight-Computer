@@ -1,6 +1,6 @@
 //Producer.h
 
-#include "Globals.h"
+#include "../Globals.h"
 #include "Consumer.h"
 #include <list>
 #include <string>

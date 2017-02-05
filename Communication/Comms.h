@@ -14,9 +14,9 @@
 #include <string>
 
 #include "Network.h"
-#include "../Bisem.h"
-#include "../MessageQueue.h"
-#include "../Producer.h"
+#include "../Libraries/Bisem.h"
+#include "../Libraries/MessageQueue.h"
+#include "../Libraries/Producer.h"
 
 #ifndef COMMS_H
 #define COMMS_H
