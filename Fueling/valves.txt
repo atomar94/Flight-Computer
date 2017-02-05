@@ -1,0 +1,28 @@
+#   Welcome to valves.txt!
+#   Your one stop shopping experience to creating your own
+#   custom valves configurations!!!!
+#   ooooh...
+#           ahhh...
+#                           nice...
+#               fancy...
+#
+#   DA RULES:
+#       Disclaimer:
+#       If you want to be a 1337 hacker you have to follow the rules.
+#       failure to follow the rules could result in, but is not limited to:
+#       burning, itching, wheezing, fever, aching, heart failure, EXPLOSIONS,
+#       failed launches, accidental venting, and death.
+#
+#       Rules:
+#           1) a line starting with a # is a comment
+#
+#           b) to define valves you write: valve_name normal_status
+#
+#           iii) normal_status is open or closed
+#
+#
+#examples
+#nox_vent_valve open
+vent_valve_b closed
+vent_valve_c closed
+

@@ -4,7 +4,7 @@ boost=-I /usr/local/boost_1_63_0
 consumers=Consumer.cpp QueuedConsumer.cpp Logging.cpp Ignition/Ignition.cpp Echo.cpp
 producers=Producer.cpp
 helpers=Bisem.cpp MessageQueue.cpp
-fueling=Fueling/Valve.cpp Fueling/Valve_Control.cpp Fueling/Valve_Interface.cpp
+fueling=Fueling/Valve.cpp Fueling/Valve_Control.cpp Fueling/Valve_Interface.cpp Fueling/Valve_Parser.cpp
 simulator=Simulator/Testing_Producer.cpp
 drivers=Drivers/MS5607_Driver.cpp Drivers/Instrumentation.cpp
 comms=Communication/Comms.cpp Communication/Network.cpp
@@ -15,8 +15,11 @@ all:
 
 #this target is for when we are on the pi and can compile the gpio libraries
 drivers:
-	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) $(drivers) -o fcmain
+	$(CC) $(flags) $(boost) main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) $(comms) $(drivers) -o fcmain
 
+#this target creates the valve parse verification program
+valve-parse:
+	$(CC) $(flags) $(boost) Fueling/valve_parse_main.cpp $(consumers) $(producers) $(helpers) $(fueling) $(simulator) $(comms) -o Fueling/valve_parse
 
 
 debug:
