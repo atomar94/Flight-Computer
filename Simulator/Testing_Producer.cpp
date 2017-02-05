@@ -7,8 +7,8 @@
 #include <iostream>
 #include <list>
 #include <unistd.h> //sleep and usleep
-#include "../Fueling/Valve_Interface.h"
-#include "../Logging.h"
+#include "../Modules/Fueling/Valve_Interface.h"
+#include "../Modules/Logging/Logging.h"
 #include "../Globals.h"
 #include "../Libraries/Producer.h"
 #include "../Libraries/Consumer.h"

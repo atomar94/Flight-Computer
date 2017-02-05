@@ -1,7 +1,8 @@
 #include "Echo.h"
 #include <iostream>
 #include <cstring>
-#include "Globals.h"
+#include "../../Globals.h"
+
 
 void Echo::run()
 {

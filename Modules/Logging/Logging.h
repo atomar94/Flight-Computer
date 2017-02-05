@@ -1,7 +1,7 @@
-//logging.h
+//Modules/Logging/logging.h
 
-#include "Libraries/QueuedConsumer.h"
-#include "Globals.h"
+#include "../../Libraries/QueuedConsumer.h"
+#include "../../Globals.h"
 #include <pthread.h>
 #include <fstream> //output to file
 #include <iostream> //also file

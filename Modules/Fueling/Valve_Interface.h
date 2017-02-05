@@ -15,7 +15,7 @@
 #ifndef VALVE_INTERFACE_H
 #define VALVE_INTERFACE_H
 
-#include "../Libraries/QueuedConsumer.h"
+#include "../../Libraries/QueuedConsumer.h"
 #include "Valve_Control.h"
 
 class Valve_Interface : public QueuedConsumer

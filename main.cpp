@@ -1,14 +1,14 @@
 //main.cpp
 
-#include "Logging.h"
+#include "Modules/Logging/Logging.h"
 
 //#include "Instrumentation.h"
 
 #include "Globals.h"
 #include "Libraries/Consumer.h"
 #include "Libraries/MessageQueue.h"
-#include "Echo.h"
-#include "Fueling/Valve_Interface.h"
+#include "Modules/Testing/Echo.h"
+#include "Modules/Fueling/Valve_Interface.h"
 #include "Simulator/Testing_Producer.h"
 
 #include <pthread.h>

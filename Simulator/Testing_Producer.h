@@ -1,11 +1,11 @@
-//Testing_Producer.h
+//Simulator/Testing_Producer.h
 //
 
 #ifndef TESTING_PRODUCER_H
 #define TESTING_PRODUCER_H
 
-#include "../Fueling/Valve_Interface.h"
-#include "../Logging.h"
+#include "../Modules/Fueling/Valve_Interface.h"
+#include "../Modules/Logging/Logging.h"
 #include "../Libraries/Producer.h"
 #include <list>
 #include <string>
