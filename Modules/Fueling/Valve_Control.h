@@ -22,9 +22,7 @@ class Valve_Control
 
     public:
         Valve_Control();
-        //todo: this needs to get populated somehow
-        list<Valve> valve_list;
-        
+       
 
         //APIs
         bool vent_tank();
@@ -32,12 +30,22 @@ class Valve_Control
         //...
 
 
+        list<Valve> get_valve_list();
+
+        //api
+        bool vopen(string valve_name);
+        bool is_open(string valve_name);
+        bool vclose(string valve_name);
+
+    private:
+        Valve_Parser parser;
+        list<Valve> valve_list;
+
         //valve.h calls through valve_list
         bool actuate(string valve_name);
         bool is_actuated(string valve_name);
 
-    private:
-        Valve_Parser parser;
+
 };
 
 

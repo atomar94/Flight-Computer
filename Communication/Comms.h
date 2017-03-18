@@ -1,51 +1,121 @@
-//Comms.h
-/*
- * Comms class reads what's in its message queue and sends
- * it to the correct communication medium. If we are using
- * the network then it formats an http request and sends
- * it accross the network. if its radio, we send it to the
- * radio.
- *
- * Anyone can add messages into the class and it will send
- * it.
- */
-
-#include <list>
-#include <string>
+//Comms.cpp
 
 #include "Network.h"
-#include "../Libraries/Bisem.h"
+#include "Comms.h"
 #include "../Libraries/MessageQueue.h"
-#include "../Libraries/Producer.h"
-
-#ifndef COMMS_H
-#define COMMS_H
+#include <iostream>
 
 using namespace std;
 
-class Comms : public Producer
+Comms::Comms()
 {
-    public:
-        void run();
-        void stop();
+    //command_server();
 
-        Comms();
-        ~Comms();
-        MessageQueue * get_queue();
-        void add_msg_queue(string name, MessageQueue *mq);
+    b = new Bisem(); //not used in this instance, but still required.
+    msg_queue = new MessageQueue(b);
+    runflag = true;
+}
 
-    private:
-        MessageQueue * msg_queue; //outgoing (to network/radio) msgs
-        Bisem * b; //needed for msg_queue but not actually used
-        std::list<Queued_Msg> inbox; //incoming (from network) msgs
-        Network command_server;
-        bool runflag;        
+Comms::~Comms()
+{
+    delete msg_queue;
+    delete b;
+}
 
-        void get_network(); //load network recv into the inbox
-        void get_radio(); //load radio recv into the inbox
-        void dispatch(); //send the msgs in the inbox to their destinations.
-        
+void Comms::add_msg_queue(string name, MessageQueue* mq)
+{
+    add_msg_queue_pair(name, mq);
+}
 
-};
+void Comms::run()
+{
+    runflag = true;
+    Queued_Msg outbound;
 
-#endif
+    while(runflag)
+    {
+        //get latest
+        get_network();
+        get_radio();
+
+        //handle the network and radio requests
+        dispatch();
+
+
+        //write all the inbox msgs in the queue
+        int size = msg_queue->size();
+        for(int _ = 0; _ < size; _++)
+        {
+            if(msg_queue->pop(outbound))
+            {
+                //if outbound is for network
+                if(outbound.to == "network")
+                    command_server.nwrite(outbound);
+                //if(outbound.to == "radio")
+                    //radio.nwrite()
+            }
+        }
+    }
+}
+
+void Comms::stop()
+{
+    runflag = false;
+}
+
+
+//load the contents of the network socket
+//into the inbox
+void Comms::get_network()
+{
+    Queued_Msg q_msg;
+    q_msg = command_server.nread();
+    if( q_msg.to != "invalid" )
+    {
+        inbox.push_back(q_msg);
+    }
+}
+
+
+//todo implement
+//
+//This gets the data from the radio 
+void Comms::get_radio()
+{
+    return;
+}
+
+//a message came in via wireless and we need to send it
+//to whatever class controls that functionality
+//
+//This needs to read the metadata for the inbox objects
+// and decide which message queue to send it to.
+//
+void Comms::dispatch()
+{
+    int size = inbox.size();
+    Queued_Msg outbound;
+    map<string, MessageQueue*>::iterator mq;
+
+    for(int _ = 0; _ < size; _++)
+    {
+        outbound = inbox.front();
+        inbox.pop_front();
+
+        //find matching message queue for this Queued_Msg.
+        mq = message_queue_table.find( outbound.to );
+        if (mq != message_queue_table.end())
+        {
+            ((*mq).second)->push(outbound);
+        }
+        else
+        {
+            cout << "couldn't find: " << outbound.to << " for payload<";
+            cout << outbound.payload << "> it was dropped." <<endl;
+        }
+
+   }
+}
+
+
+

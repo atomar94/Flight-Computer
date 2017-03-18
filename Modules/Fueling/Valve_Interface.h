@@ -23,13 +23,17 @@ class Valve_Interface : public QueuedConsumer
 
     public:
         
-
+        
         //overridden from Comsumer
         void run();
         void stop();
 
     private:
         Valve_Control v_control;
+        bool debug = false;
+
+        //API
+        string get_all();
 };
 
 #endif
